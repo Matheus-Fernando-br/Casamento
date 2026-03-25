@@ -6,10 +6,24 @@ import { categorias } from "../data/presentes"
 import { useCart } from "../context/CartContext"
 
 export default function Presentes(){
+
 const navigate = useNavigate()
 const { addToCart } = useCart()
 
 const [showTop,setShowTop] = useState(false)
+const [showMsg,setShowMsg] = useState(false)
+
+function handleAdd(item){
+
+addToCart(item)
+
+setShowMsg(true)
+
+setTimeout(()=>{
+setShowMsg(false)
+},2000)
+
+}
 
 function scrollToCategoria(id){
 
@@ -30,13 +44,9 @@ useEffect(()=>{
 function handleScroll(){
 
 if(window.scrollY > 400){
-
 setShowTop(true)
-
 }else{
-
 setShowTop(false)
-
 }
 
 }
@@ -65,80 +75,56 @@ return(
 
 <div className="categoria-filtro">
 
-<p>
-Escolha a categoria
-</p>
+<p>Escolha a categoria</p>
 
-<button
-onClick={()=>scrollToCategoria("essenciais")}
->
+<button onClick={()=>scrollToCategoria("essenciais")}>
 Essenciais da casa
 </button>
 
-<button
-onClick={()=>scrollToCategoria("sala")}
->
+<button onClick={()=>scrollToCategoria("sala")}>
 Sala
 </button>
 
-<button
-onClick={()=>scrollToCategoria("quarto")}
->
+<button onClick={()=>scrollToCategoria("quarto")}>
 Quarto
 </button>
 
-<button
-onClick={()=>scrollToCategoria("cozinha")}
->
+<button onClick={()=>scrollToCategoria("cozinha")}>
 Cozinha
 </button>
 
-<button
-onClick={()=>scrollToCategoria("limpeza")}
->
+<button onClick={()=>scrollToCategoria("limpeza")}>
 Limpeza
 </button>
 
-<button
-onClick={()=>scrollToCategoria("extras")}
->
+<button onClick={()=>scrollToCategoria("extras")}>
 Extras
 </button>
 
 </div>
 
-
 <div style={{textAlign:"center", marginTop:50}}>
-    <button
-
-    className="pix-btn"
-    style={{background:"green"}}
-    onClick={() => navigate("/carrinho")}
-
-    >
-
-    Ir para o carrinho
-
-    </button>
+<button
+className="pix-btn"
+style={{background:"green"}}
+onClick={() => navigate("/carrinho")}
+>
+Ir para o carrinho
+</button>
 </div>
+
 {
 
 categorias.map(categoria => (
 
 <div
-
 id={categoria.id}
-
 className="section"
-
 key={categoria.id}
-
 >
 
 <h2 className="section-title">
-
 {categoria.titulo}
-
 </h2>
 
 <div className="grid-presentes">
@@ -156,13 +142,11 @@ categoria.itens.map(item => (
 <p>{item.descricao}</p>
 
 <span>
-
 R$ {item.preco}
-
 </span>
 
 <button
-onClick={() => addToCart(item)}
+onClick={() => handleAdd(item)}
 >
 
 Adicionar
@@ -188,22 +172,35 @@ Adicionar
 showTop && (
 
 <button
-
 className="scroll-top"
-
 onClick={()=>window.scrollTo({
 
 top:0,
-
 behavior:"smooth"
 
 })}
 
 >
 
-<i className="bi bi-arrow-up"></i>
+↑
 
 </button>
+
+)
+
+}
+
+{/* ALERT PREMIUM */}
+
+{
+
+showMsg && (
+
+<div className="cart-alert">
+
+Presente adicionado ao carrinho 💖
+
+</div>
 
 )
 

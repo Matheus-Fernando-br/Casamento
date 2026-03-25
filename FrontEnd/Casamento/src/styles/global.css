@@ -3,184 +3,319 @@ RESET
 ========================= */
 
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Segoe UI',sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 html{
-  scroll-behavior:smooth;
+scroll-behavior:smooth;
 }
 
 body{
-  background:
-  linear-gradient(180deg,#ffffff,#f7f7f7);
 
-  color:#333;
+font-family:'Inter',sans-serif;
+
+background:
+
+radial-gradient(circle at 20% 30%,rgba(255,240,220,0.25),transparent 40%),
+radial-gradient(circle at 80% 70%,rgba(255,215,170,0.18),transparent 40%),
+
+linear-gradient(120deg,#ffffff,#faf7f2);
+
+color:#2d2d2d;
+
+overflow-x:hidden;
+
+}
+
+/* =====================================================
+FUNDO LUXO ANIMADO
+===================================================== */
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+width:200%;
+height:200%;
+
+top:-50%;
+left:-50%;
+
+background:
+
+radial-gradient(circle,#ffe3b3 1px,transparent 1px);
+
+background-size:80px 80px;
+
+opacity:0.18;
+
+animation:fundoMove 60s linear infinite;
+
+pointer-events:none;
+
+z-index:-2;
+
+}
+
+@keyframes fundoMove{
+
+0%{transform:translate(0,0)}
+100%{transform:translate(200px,200px)}
+
+}
+
+/* =====================================================
+PARTICULAS BRILHANTES
+===================================================== */
+
+body::after{
+
+content:"";
+
+position:fixed;
+
+width:100%;
+height:100%;
+
+background-image:
+
+radial-gradient(2px 2px at 20% 30%,rgba(255,215,170,0.8),transparent),
+radial-gradient(1px 1px at 70% 80%,rgba(255,230,200,0.7),transparent),
+radial-gradient(1px 1px at 40% 60%,rgba(255,210,160,0.6),transparent);
+
+animation:particles 12s linear infinite;
+
+pointer-events:none;
+
+z-index:-1;
+
+}
+
+@keyframes particles{
+
+0%{transform:translateY(0)}
+100%{transform:translateY(-200px)}
+
+}
+
+/* =====================================================
+CURSOR PERSONALIZADO
+===================================================== */
+
+body{
+
+cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='6' fill='%23c59d5f'/%3E%3C/svg%3E") 12 12, auto;
+
+}
+
+/* =====================================================
+TIPOGRAFIA
+===================================================== */
+
+h1,h2,h3{
+
+font-family:'Playfair Display',serif;
+
+}
+
+.hero h1{
+
+font-family:'Great Vibes',cursive;
+
+font-size:72px;
+
+background:linear-gradient(90deg,#fff,#ffe7c2);
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+text-shadow:0 8px 30px rgba(0,0,0,0.4);
+
 }
 
 /* =========================
 CONTAINERS
 ========================= */
 
-/* divider elegante */
-
-.divider{
-
-margin:40px auto;
-
-width:550px;
-
-height:1.5px;
-
-border:none;
-
-background:
-
-linear-gradient(
-90deg,
-transparent,
-#c59d5f,
-transparent
-);
-
-position:relative;
-
-}
-
-/* mobile */
-
-@media(max-width:700px){
-
-.divider{
-
-width:150px;
-
-margin:30px auto;
-
-}
-
-}
+/* =====================================================
+SEÇÕES COM ANIMAÇÃO AO ROLAR
+===================================================== */
 
 .section{
 
-padding:80px 20px 20px;
+padding:100px 20px 40px;
 
 max-width:1200px;
 
 margin:auto;
 
-animation:fadeUp 0.8s ease;
+opacity:0;
+
+transform:translateY(50px);
+
+animation:fadeUp 1s forwards;
+
+animation-delay:.2s;
 
 }
+
+/* =====================================================
+TITULOS
+===================================================== */
 
 .section-title{
 
-font-size:28px;
+font-size:36px;
 
-margin-bottom:25px;
+margin-bottom:35px;
 
 text-align:center;
 
-color:#444;
+background:linear-gradient(90deg,#c59d5f,#f1d8a9);
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
 
 }
+
+/* =====================================================
+DIVIDER PREMIUM
+===================================================== */
+
+.divider{
+
+margin:60px auto;
+
+width:420px;
+
+height:2px;
+
+background:linear-gradient(90deg,transparent,#c59d5f,transparent);
+
+position:relative;
+
+}
+
+.divider::after{
+
+content:"✦";
+
+position:absolute;
+
+top:-14px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+color:#c59d5f;
+
+}
+
 
 /* =========================
 NAVBAR
 ========================= */
 
+/* =====================================================
+NAVBAR GLASS
+===================================================== */
+
 .navbar{
 
-  position:fixed;
-  top:0;
-  left:0;
+position:fixed;
 
-  width:100%;
+top:0;
 
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+width:100%;
 
-  padding:18px 50px;
+display:flex;
 
-  background:rgba(255,255,255,0.75);
+justify-content:space-between;
 
-  backdrop-filter: blur(12px);
+align-items:center;
 
-  border-bottom:1px solid rgba(0,0,0,0.05);
+padding:18px 50px;
 
-  z-index:999;
+background:rgba(255, 255, 255, 0.774);
 
-  transition:0.3s;
+backdrop-filter:blur(18px);
+border-radius: 0 0 10px 10px;
+border-bottom:1px solid rgba(255,255,255,0.3);
+
+box-shadow:0 10px 40px rgba(0,0,0,0.05);
+
+z-index:999;
+
+transition:.4s;
 
 }
 
 .logo{
 
-  font-size:22px;
-  font-weight:600;
+font-family:'Great Vibes';
 
-  color:#222;
+font-size:28px;
 
-  letter-spacing:1px;
+color:#b8965c;
 
 }
 
-/* menu */
-
 .menu{
 
-  display:flex;
-  gap: 75px;
-  align-items:center;
+display:flex;
+
+gap:70px;
 
 }
 
 .menu a{
 
-  text-decoration:none;
+text-decoration:none;
 
-  color:#444;
+color:#555;
 
-  font-weight:500;
+position:relative;
 
-  position:relative;
-
-  transition:0.3s;
+transition:.3s;
 
 }
 
-/* linha animada */
-
 .menu a::after{
 
-  content:"";
+content:"";
 
-  width:0%;
-  height:2px;
+position:absolute;
 
-  background:#c59d5f;
+bottom:-6px;
 
-  position:absolute;
+left:0;
 
-  bottom:-5px;
-  left:0;
+width:0;
 
-  transition:0.3s;
+height:2px;
+
+background:linear-gradient(90deg,#c59d5f,#e8cfa3);
+
+transition:.3s;
 
 }
 
 .menu a:hover{
 
-  color:#c59d5f;
+color:#c59d5f;
 
 }
 
 .menu a:hover::after{
 
-  width:100%;
+width:100%;
 
 }
 
@@ -294,58 +429,53 @@ HERO
 
 }
 
-/* =========================
-CAROUSEL
-========================= */
-
-/* container */
+/* =====================================================
+CAROUSEL 3D
+===================================================== */
 
 .carousel{
 
 overflow:hidden;
 
-margin-top:20px;
-margin-bottom: 40px;
+margin-bottom:60px;
 
 }
-
-/* trilho que se move */
 
 .carousel-track{
 
 display:flex;
 
-gap:20px;
+gap:25px;
 
 width:max-content;
 
-animation:scrollLoop 40s linear infinite;
+animation:scrollLoop 60s linear infinite;
 
 }
-
-/* imagens */
 
 .carousel img{
 
-height:340px;
+height:360px;
 
-border-radius:16px;
+border-radius:22px;
 
 object-fit:cover;
 
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
+box-shadow:0 25px 60px rgba(0,0,0,0.18);
 
-transition:0.3s;
+transition:.6s;
 
 }
-
-/* leve zoom ao passar mouse */
 
 .carousel img:hover{
 
-transform:scale(1.05);
+transform:
+
+scale(1.1)
+rotateY(6deg);
 
 }
+
 
 /* animação infinita */
 
@@ -360,24 +490,6 @@ transform:translateX(0);
 100%{
 
 transform:translateX(-50%);
-
-}
-
-}
-
-/* mobile */
-
-@media(max-width:900px){
-
-.carousel img{
-
-height:220px;
-
-}
-
-.carousel-track{
-
-animation-duration:55s;
 
 }
 
@@ -521,7 +633,9 @@ border-color:#c59d5f;
 
 }
 
-/* botão subir */
+/* =====================================================
+SCROLL TOP
+===================================================== */
 
 .scroll-top{
 
@@ -531,41 +645,29 @@ bottom:30px;
 
 right:30px;
 
-background:#c59d5f;
+background:linear-gradient(135deg,#c59d5f,#e6c78f);
 
 color:white;
 
 border:none;
 
-width:45px;
+width:48px;
 
-height:45px;
+height:48px;
 
 border-radius:50%;
 
 cursor:pointer;
 
-font-size:22px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
 
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-box-shadow:0 8px 25px rgba(0,0,0,0.2);
-
-animation:fadeUp 0.3s ease;
-
-z-index:999;
+transition:.3s;
 
 }
 
 .scroll-top:hover{
 
-background:#b68d50;
-
-transform:translateY(-3px);
+transform:translateY(-5px) scale(1.1);
 
 }
 
@@ -619,29 +721,62 @@ transform:scale(1.05);
 
 }
 
-.clear-cart{
+.cart-alert{
 
-margin-top:15px;
+position:fixed;
 
-background:#f5f5f5;
+bottom:30px;
 
-border:none;
+left:50%;
 
-padding:8px 18px;
+transform:translateX(-50%);
 
-border-radius:8px;
+background:linear-gradient(135deg,#c59d5f,#e6c78f);
 
-cursor:pointer;
+color:white;
 
-color:#666;
+padding:14px 28px;
 
-transition:0.25s;
+border-radius:40px;
+
+font-size:15px;
+
+box-shadow:0 20px 40px rgba(0,0,0,0.2);
+
+animation:alertFade 2s ease forwards;
+
+z-index:9999;
 
 }
 
-.clear-cart:hover{
+@keyframes alertFade{
 
-background:#eee;
+0%{
+
+opacity:0;
+transform:translate(-50%,20px) scale(.9);
+
+}
+
+20%{
+
+opacity:1;
+transform:translate(-50%,0) scale(1);
+
+}
+
+80%{
+
+opacity:1;
+
+}
+
+100%{
+
+opacity:0;
+transform:translate(-50%,20px) scale(.95);
+
+}
 
 }
 
@@ -1182,39 +1317,6 @@ box-shadow:
 
 }
 
-/* mobile */
-
-@media(max-width:700px){
-
-.pix-highlight{
-
-padding:35px 20px;
-
-margin:50px 15px;
-
-}
-
-.pix-content h2{
-
-font-size:22px;
-
-}
-
-.pix-content p{
-
-font-size:15px;
-
-}
-
-.pix-btn{
-
-font-size:16px;
-
-padding:12px 30px;
-
-}
-
-}
 
 /* =========================
 ANIMAÇÕES
@@ -1333,5 +1435,52 @@ RESPONSIVIDADE
   margin-bottom:15px;
 
   }
+
+  .divider{
+
+    width:150px;
+
+    margin:30px auto;
+  }
+
+  .pix-highlight{
+
+padding:35px 20px;
+
+margin:50px 15px;
+
+}
+
+.pix-content h2{
+
+font-size:22px;
+
+}
+
+.pix-content p{
+
+font-size:15px;
+
+}
+
+.pix-btn{
+
+font-size:16px;
+
+padding:12px 30px;
+
+}
+
+.carousel img{
+
+height:220px;
+
+}
+
+.carousel-track{
+
+animation-duration:55s;
+
+}
 
 }
