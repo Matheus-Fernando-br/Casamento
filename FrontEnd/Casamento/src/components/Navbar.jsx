@@ -1,48 +1,53 @@
 // src/components/Navbar.jsx
 
-import { Link } from "react-router-dom"
-import { useCart } from "../context/CartContext"
+import { NavLink } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
-export default function Navbar(){
+export default function Navbar() {
+  const { cart } = useCart();
 
-  const { cart } = useCart()
-
-  return(
-
+  return (
     <div className="navbar">
-
-      <div className="logo">
-
-        Matheus & Kariny 💍
-
-      </div>
+      <div className="logo">Matheus & Kariny 💍</div>
 
       <div className="menu">
+        <NavLink
+          to="/"
+          end
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Início
+        </NavLink>
 
-        <Link to="/">Inicio</Link>
+        <NavLink
+          to="/presentes"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Presentes
+        </NavLink>
 
-        <Link to="/presentes">Presentes</Link>
-
-        <Link to="/como-funciona">Como funciona</Link>
+        <NavLink
+          to="/como-funciona"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Como funciona
+        </NavLink>
       </div>
 
-        <div className="cart">
+       <div className="cart">
+        <NavLink 
+          to="/carrinho"
+          className={({ isActive }) => isActive ? "active" : ""}
+        >
+          <i className="bi bi-cart"></i>
 
-          <Link to="/carrinho">
-
-            <i className="bi bi-cart"></i>
-
-            <span className="cart-count">
-
-              {cart.length}
-
-            </span>
-
-          </Link>
-        </div>
+          <span className="cart-count">
+            {cart.length}
+          </span>
+        </NavLink>
+      </div>
 
     </div>
 
   )
-
 }

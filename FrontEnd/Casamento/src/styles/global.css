@@ -220,74 +220,61 @@ NAVBAR GLASS
 
 .navbar {
   position: fixed;
-
   top: 0;
-
   width: 100%;
 
   display: flex;
-
   justify-content: space-between;
-
   align-items: center;
 
   padding: 18px 50px;
 
   background: rgba(255, 255, 255, 0.774);
-
   backdrop-filter: blur(18px);
+
   border-radius: 0 0 10px 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
 
   z-index: 999;
-
   transition: 0.4s;
 }
 
 .logo {
   font-family: "Great Vibes";
-
   font-size: 28px;
-
   color: #b8965c;
 }
 
 .menu {
   display: flex;
-
   gap: 70px;
 }
 
 .menu a {
   text-decoration: none;
-
   color: #555;
 
   position: relative;
-
   transition: 0.3s;
 }
 
+/* linha animada */
 .menu a::after {
   content: "";
-
   position: absolute;
-
   bottom: -6px;
-
   left: 0;
 
   width: 0;
-
   height: 2px;
 
   background: linear-gradient(90deg, #c59d5f, #e8cfa3);
-
   transition: 0.3s;
 }
 
+/* hover */
 .menu a:hover {
   color: #c59d5f;
 }
@@ -296,11 +283,20 @@ NAVBAR GLASS
   width: 100%;
 }
 
+/* ATIVO (página atual) */
+.menu a.active {
+  color: #c59d5f;
+  font-weight: 600;
+}
+
+.menu a.active::after {
+  width: 100%;
+}
+
 /* carrinho */
 
 .cart {
   font-size: 24px;
-
   cursor: pointer;
 
   position: relative;
@@ -316,6 +312,18 @@ NAVBAR GLASS
   background-color: #b4b3b3;
 }
 
+/* cart ativo */
+.cart a.active {
+  background-color: #c59d5f;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.cart a.active i {
+  color: white;
+}
+
 .cart-count {
   position: absolute;
 
@@ -323,15 +331,12 @@ NAVBAR GLASS
   right: -10px;
 
   background: #28a745;
-
   color: white;
 
   font-size: 11px;
-
   padding: 3px 7px;
 
   border-radius: 50%;
-
   font-weight: bold;
 }
 
@@ -474,6 +479,17 @@ CAROUSEL 3D
   100% {
     transform: translateX(-50%);
   }
+}
+
+.historia {
+  padding: 0 60px;
+}
+
+.historia p {
+  text-align: justify; /* 👈 texto justificado */
+  line-height: 1.6;
+  font-size: 15px;
+  color: #333;
 }
 
 /* =========================
