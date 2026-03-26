@@ -7,6 +7,7 @@ import Presentes from "../pages/Presentes";
 import Carrinho from "../pages/Carrinho";
 import Pix from "../pages/Pix";
 import ComoFunciona from "../pages/ComoFunciona";
+import Local from "../pages/Local";
 import ScrollToTop from "../components/ScrollToTop"
 
 export default function AppRoutes() {
@@ -19,6 +20,7 @@ export default function AppRoutes() {
         <Route path="/carrinho" element={<Carrinho />} />
         <Route path="/pix" element={<Pix />} />
         <Route path="/como-funciona" element={<ComoFunciona />} />
+        <Route path="/local" element={<Local />} />
       </Routes>
     </BrowserRouter>
   );

@@ -32,6 +32,13 @@ export default function Navbar() {
         >
           Como funciona
         </NavLink>
+
+        <NavLink
+          to="/local"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Local
+        </NavLink>
       </div>
 
        <div className="cart">
