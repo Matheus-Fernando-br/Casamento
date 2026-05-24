@@ -13,7 +13,7 @@ export default function Hero() {
 
   useEffect(() => {
     const intervalo = setInterval(() => {
-      const dataAlvo = new Date("2026-11-14T15:30:00");
+      const dataAlvo = new Date("2027-04-17T19:00:00");
       const agora = new Date();
 
       const diferenca = dataAlvo - agora;
@@ -41,16 +41,25 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="hero" style={{ backgroundImage: `url(${bg})`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+    <div
+      className="hero"
+      style={{
+        backgroundImage: `url(${bg})`,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <div className="overlay"></div>
 
       <div className="hero-content">
         <h1>Matheus & Kariny 💍</h1>
 
-        <p>Nosso casamento será dia 14 de Novembro às 15:30 💖</p>
+        <p>Nosso casamento será dia 17 de Abril de 2027 às 19:00 💖</p>
       </div>
 
-      <div className="contagem" style={{marginTop: 80}}>
+      <div className="contagem" style={{ marginTop: 80 }}>
         <h2>Contagem regressiva para o grande dia:</h2>
 
         <div className="contador-cards">

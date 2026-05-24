@@ -34,6 +34,13 @@ export default function Navbar() {
         </NavLink>
 
         <NavLink
+          to="/presenca"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Confirmação de Presença
+        </NavLink>
+
+        <NavLink
           to="/local"
           className={({ isActive }) => (isActive ? "active" : "")}
         >
@@ -41,20 +48,16 @@ export default function Navbar() {
         </NavLink>
       </div>
 
-       <div className="cart">
-        <NavLink 
+      <div className="cart">
+        <NavLink
           to="/carrinho"
-          className={({ isActive }) => isActive ? "active" : ""}
+          className={({ isActive }) => (isActive ? "active" : "")}
         >
           <i className="bi bi-cart"></i>
 
-          <span className="cart-count">
-            {cart.length}
-          </span>
+          <span className="cart-count">{cart.length}</span>
         </NavLink>
       </div>
-
     </div>
-
-  )
+  );
 }
