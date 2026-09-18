@@ -1,20 +1,11 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
-export default function BotaoVoltar(){
+export default function BotaoVoltar() {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  return(
-
-    <button
-      className="back-btn"
-      onClick={() => navigate(-1)}
-    >
-
-      ← voltar
-
+  return (
+    <button className="back-btn" onClick={() => navigate(-1)}>
+      <span style={{ color: "#c59d5f" }}>←</span> Voltar
     </button>
-
-  )
-
+  );
 }

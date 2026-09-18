@@ -1,3 +1,17 @@
+# Dependências
 node_modules/
+
+# Arquivos de ambiente
 .env
-BackEnd/.env
+**/.env
+
+# Logs
+*.log
+
+# Arquivos gerados
+dist/
+build/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

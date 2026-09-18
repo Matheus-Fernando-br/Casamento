@@ -159,13 +159,6 @@ export default function PainelAdmin() {
           </div>
 
           <div className="admin-actions">
-            <button
-              className="admin-button secondary"
-              onClick={carregarConfirmacoes}
-            >
-              Atualizar
-            </button>
-
             <button className="admin-button danger" onClick={sair}>
               Sair
             </button>
@@ -215,8 +208,13 @@ export default function PainelAdmin() {
             </div>
           </form>
 
-          <h2>Confirmações de presença</h2>
-
+          <h2 style={{ marginBottom: 10 }}>Confirmações de presença</h2>
+          <button
+            className="admin-button secondary"
+            onClick={carregarConfirmacoes}
+          >
+            Atualizar
+          </button>
           {carregando ? (
             <p>Carregando confirmações...</p>
           ) : confirmacoes.length === 0 ? (

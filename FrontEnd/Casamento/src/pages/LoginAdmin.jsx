@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const API_URL =
   import.meta.env.VITE_API_URL || "https://casamento-rg0q.onrender.com";
@@ -46,49 +47,53 @@ export default function LoginAdmin() {
   };
 
   return (
-    <main className="admin-page">
-      <div className="admin-container">
-        <div className="admin-card">
-          <h1>Área dos Noivos</h1>
-          <p>Entre para administrar as confirmações de presença.</p>
+    <>
+      <Navbar />
+      <main className="admin-page">
+        <button className="back-btn" onClick={() => navigate("/")}>
+          <span style={{ color: "#c59d5f" }}>←</span> Voltar
+        </button>
+        <div className="admin-container">
+          <div className="admin-card">
+            <h1>Área dos Noivos</h1>
+            <p>Entre para administrar as confirmações de presença.</p>
 
-          {erro && <div className="admin-error">{erro}</div>}
+            {erro && <div className="admin-error">{erro}</div>}
 
-          <form className="admin-form" onSubmit={handleSubmit}>
-            <label>
-              Login
-              <input
-                type="text"
-                value={login}
-                onChange={(event) => setLogin(event.target.value)}
-                required
-                autoComplete="username"
-              />
-            </label>
+            <form className="admin-form" onSubmit={handleSubmit}>
+              <label>
+                Login
+                <input
+                  type="text"
+                  value={login}
+                  onChange={(event) => setLogin(event.target.value)}
+                  required
+                  autoComplete="username"
+                />
+              </label>
 
-            <label>
-              Senha
-              <input
-                type="password"
-                value={senha}
-                onChange={(event) => setSenha(event.target.value)}
-                required
-                autoComplete="current-password"
-              />
-            </label>
+              <label>
+                Senha
+                <input
+                  type="password"
+                  value={senha}
+                  onChange={(event) => setSenha(event.target.value)}
+                  required
+                  autoComplete="current-password"
+                />
+              </label>
 
-            <button
-              className="admin-button"
-              type="submit"
-              disabled={carregando}
-            >
-              {carregando ? "Entrando..." : "Entrar"}
-            </button>
-          </form>
-
-          <Link to="/">Voltar para o site</Link>
+              <button
+                className="admin-button"
+                type="submit"
+                disabled={carregando}
+              >
+                {carregando ? "Entrando..." : "Entrar"}
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
