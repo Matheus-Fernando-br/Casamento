@@ -145,12 +145,12 @@ SPLASH
   position: fixed;
   inset: 0;
   background: linear-gradient(to bottom, white, #e5e5e5);
-  
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
+
   z-index: 9999;
   text-align: center;
   font-family: serif;
@@ -207,7 +207,6 @@ SPLASH
   left: -30px;
   top: 0;
 }
-
 
 /* =====================================================
 SEÇÕES COM ANIMAÇÃO AO ROLAR
@@ -375,18 +374,17 @@ NAVBAR GLASS
   border-radius: 10px;
 }
 
-.cart i{
-  transition:all 0.3s ease-in-out ;
+.cart i {
+  transition: all 0.3s ease-in-out;
 }
 
 .cart i:hover {
-    color: #c59d5f;
+  color: #c59d5f;
 }
 
 .cart:hover {
   transform: scale(1.1);
 }
-
 
 /* cart ativo */
 .cart a.active {
@@ -1260,7 +1258,6 @@ LOCAL
 ========================= */
 
 .local-container {
-
   max-width: 900px;
   margin: auto;
   padding: 40px 20px;
@@ -1268,52 +1265,38 @@ LOCAL
   text-align: center;
 
   animation: fadeUp 0.6s ease;
-
 }
 
-
 .local-header h1 {
-
   font-size: 2.5rem;
   margin-bottom: 10px;
 
   font-family: "Playfair Display", serif;
-
 }
 
-
 .local-header p {
-
   color: #666;
   margin-bottom: 30px;
 
   font-size: 1.1rem;
-
 }
 
-
 .mapa-wrapper {
-
   border-radius: 18px;
   overflow: hidden;
 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 
   margin-bottom: 30px;
 
   transition: 0.3s;
-
 }
 
 .mapa-wrapper:hover {
-
   transform: scale(1.01);
-
 }
 
-
 .evento-info {
-
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -1321,26 +1304,20 @@ LOCAL
   align-items: center;
 
   font-size: 1.2rem;
-
 }
-
 
 .data,
 .hora {
-
   background: white;
 
   padding: 10px 20px;
 
   border-radius: 12px;
 
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
 
-
 .btn-maps {
-
   margin-top: 15px;
 
   background: linear-gradient(135deg, #d4af37, #f1d77a);
@@ -1356,34 +1333,236 @@ LOCAL
   font-weight: 600;
 
   transition: 0.3s;
-
 }
 
 .btn-maps:hover {
-
   transform: translateY(-2px);
 
-  box-shadow: 0 8px 20px rgba(212,175,55,0.35);
-
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35);
 }
 
+/* =========================
+   ÁREA DOS NOIVOS
+========================= */
+
+.site-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 80px;
+  padding: 40px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #fff9f0, #fff);
+  border-top: 1px solid #f1e4c8;
+}
+
+.site-footer p {
+  margin: 0;
+  color: #777;
+  font-family: "Playfair Display", serif;
+}
+
+.area-noivos-button {
+  display: inline-block;
+  padding: 12px 24px;
+  color: white;
+  background: #c59d5f;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.area-noivos-button:hover {
+  color: white;
+  background: #b68d50;
+  transform: translateY(-2px);
+}
+
+.admin-page {
+  min-height: 100vh;
+  padding: 130px 20px 60px;
+}
+
+.admin-container {
+  width: min(100%, 1000px);
+  margin: 0 auto;
+}
+
+.admin-card {
+  padding: 30px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+.admin-card h1,
+.admin-card h2 {
+  margin-top: 0;
+}
+
+.admin-form {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.admin-form label {
+  display: grid;
+  gap: 6px;
+  color: #555;
+  font-weight: 600;
+}
+
+.admin-form input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.admin-button {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 999px;
+  color: white;
+  background: #c59d5f;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.admin-button:hover {
+  background: #b68d50;
+}
+
+.admin-button.secondary {
+  color: #555;
+  background: #eee;
+}
+
+.admin-button.danger {
+  background: #b94a48;
+}
+
+.admin-error {
+  margin-bottom: 16px;
+  padding: 12px;
+  color: #842029;
+  background: #f8d7da;
+  border-radius: 8px;
+}
+
+.admin-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.admin-topbar h1 {
+  margin-bottom: 4px;
+}
+
+.admin-topbar p {
+  margin: 0;
+  color: #777;
+}
+
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-list {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+}
+
+.admin-list-item p {
+  margin: 4px 0;
+}
+
+.admin-list-item small {
+  color: #888;
+}
+
+.admin-empty {
+  padding: 24px;
+  color: #777;
+  text-align: center;
+  background: #fafafa;
+  border-radius: 10px;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  vertical-align: -3px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-rotation 0.7s linear infinite;
+}
+
+.confirmation-success {
+  margin-top: 24px;
+  padding: 16px;
+  color: #155724;
+  background: #d4edda;
+  border-radius: 12px;
+  text-align: center;
+}
+
+@keyframes spinner-rotation {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 700px) {
+  .admin-topbar,
+  .admin-list-item {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-actions {
+    width: 100%;
+  }
+
+  .admin-button {
+    width: 100%;
+  }
+}
 
 @keyframes fadeUp {
-
   from {
-
     opacity: 0;
     transform: translateY(15px);
-
   }
 
   to {
-
     opacity: 1;
     transform: translateY(0);
-
   }
-
 }
 
 /* =========================

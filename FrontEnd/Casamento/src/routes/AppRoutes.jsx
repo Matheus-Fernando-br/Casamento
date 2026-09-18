@@ -1,7 +1,4 @@
-// src/routes/AppRoutes.jsx
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Home from "../pages/Home";
 import Presentes from "../pages/Presentes";
 import Carrinho from "../pages/Carrinho";
@@ -9,12 +6,15 @@ import Pix from "../pages/Pix";
 import ComoFunciona from "../pages/ComoFunciona";
 import Presenca from "../pages/Presenca";
 import Local from "../pages/Local";
+import LoginAdmin from "../pages/LoginAdmin";
+import PainelAdmin from "../pages/PainelAdmin";
 import ScrollToTop from "../components/ScrollToTop";
 
 export default function AppRoutes() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/presentes" element={<Presentes />} />
@@ -23,6 +23,9 @@ export default function AppRoutes() {
         <Route path="/como-funciona" element={<ComoFunciona />} />
         <Route path="/presenca" element={<Presenca />} />
         <Route path="/local" element={<Local />} />
+
+        <Route path="/area-dos-noivos" element={<LoginAdmin />} />
+        <Route path="/painel-admin" element={<PainelAdmin />} />
       </Routes>
     </BrowserRouter>
   );

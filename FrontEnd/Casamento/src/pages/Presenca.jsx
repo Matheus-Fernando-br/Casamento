@@ -2,10 +2,20 @@ import Navbar from "../components/Navbar";
 import BotaoVoltar from "../components/BotaoVoltar";
 import { useState } from "react";
 
+const API_URL =
+  import.meta.env.VITE_API_URL || "https://casamento-rg0q.onrender.com";
+
+function aguardarCincoSegundos() {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 5000);
+  });
+}
+
 export default function Presenca() {
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [enviado, setEnviado] = useState(false);
+  const [enviando, setEnviando] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -14,33 +24,37 @@ export default function Presenca() {
       `Confirma os dados?\n\nNome: ${nome}\nTelefone: ${telefone}`,
     );
 
-    if (!confirmar) return;
-
-    try {
-      const response = await fetch(
-        "https://casamento-rg0q.onrender.com/confirmar",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            nome,
-            telefone,
-          }),
-        },
-      );
-
-      const data = await response.json();
-
-      if (data.sucesso) {
-        setEnviado(true);
-        setNome("");
-        setTelefone("");
-      }
-    } catch (erro) {
-      alert("Erro ao enviar confirmação");
+    if (!confirmar || enviando) {
+      return;
     }
+
+    setEnviando(true);
+    setEnviado(false);
+
+    const requisicao = fetch(`${API_URL}/confirmar`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nome,
+        telefone,
+      }),
+    }).then(async (response) => {
+      if (!response.ok) {
+        throw new Error("Não foi possível enviar a confirmação.");
+      }
+
+      return response.json();
+    });
+
+    await Promise.allSettled([requisicao, aguardarCincoSegundos()]);
+
+    setEnviando(false);
+    setEnviado(true);
+
+    setNome("");
+    setTelefone("");
   };
 
   return (
@@ -68,9 +82,7 @@ export default function Presenca() {
           <h2>📍 Informações do Evento</h2>
 
           <p>🏡 Local: SÍTIO FROIS</p>
-
           <p>📅 Data: 17/04/2027</p>
-
           <p>🕖 Horário: 19:00</p>
         </div>
 
@@ -82,9 +94,10 @@ export default function Presenca() {
             <input
               type="text"
               value={nome}
-              onChange={(e) => setNome(e.target.value)}
+              onChange={(event) => setNome(event.target.value)}
               placeholder="Nome completo do convidado"
               required
+              disabled={enviando}
               style={{ padding: "10px", fontSize: "16px" }}
             />
           </label>
@@ -96,37 +109,38 @@ export default function Presenca() {
             <input
               type="tel"
               value={telefone}
-              onChange={(e) => setTelefone(e.target.value)}
+              onChange={(event) => setTelefone(event.target.value)}
               placeholder="Telefone para contato"
               required
+              disabled={enviando}
               style={{ padding: "10px", fontSize: "16px" }}
             />
           </label>
 
           <button
             type="submit"
+            disabled={enviando}
             style={{
               padding: "12px",
               fontSize: "16px",
-              cursor: "pointer",
+              cursor: enviando ? "wait" : "pointer",
+              opacity: enviando ? 0.7 : 1,
             }}
           >
-            Confirmar presença
+            {enviando ? (
+              <>
+                <span className="loading-spinner" />
+                Enviando confirmação...
+              </>
+            ) : (
+              "Confirmar presença"
+            )}
           </button>
         </form>
 
         {enviado && (
-          <div
-            style={{
-              marginTop: "24px",
-              padding: "16px",
-              background: "#f0f0f0",
-              borderRadius: "12px",
-            }}
-          >
-            <strong>✅ Obrigado!</strong>
-
-            <p>Sua presença foi confirmada com sucesso.</p>
+          <div className="confirmation-success">
+            <strong>Presença confirmada com sucesso! ❤️</strong>
           </div>
         )}
 
@@ -145,13 +159,14 @@ export default function Presenca() {
             Entre em contato conosco caso tenha enviado alguma informação
             incorreta ou deseje remover seu nome da lista de convidados.
           </p>
+
           <a
-            href="http://w.me/5531986763652"
+            href="https://wa.me/5531986763652"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: "green", fontSize: 40, textAlign: "center" }}
           >
-            <i class="bi bi-whatsapp"></i>
+            <i className="bi bi-whatsapp"></i>
           </a>
         </div>
       </div>
