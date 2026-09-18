@@ -294,7 +294,7 @@ NAVBAR GLASS
   justify-content: space-between;
   align-items: center;
 
-  padding: 18px 50px;
+  padding: 15px 20px;
 
   background: rgba(255, 255, 255, 0.774);
   backdrop-filter: blur(18px);
@@ -310,7 +310,7 @@ NAVBAR GLASS
 
 .logo {
   font-family: "Great Vibes";
-  font-size: 28px;
+  font-size: 24px;
   color: #b8965c;
 }
 
@@ -322,7 +322,8 @@ NAVBAR GLASS
 .menu a {
   text-decoration: none;
   color: #555;
-
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
   position: relative;
   transition: 0.3s;
 }
@@ -368,16 +369,24 @@ NAVBAR GLASS
 
   position: relative;
 
-  transition: 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 
   padding: 5px;
   border-radius: 10px;
 }
 
+.cart i{
+  transition:all 0.3s ease-in-out ;
+}
+
+.cart i:hover {
+    color: #c59d5f;
+}
+
 .cart:hover {
   transform: scale(1.1);
-  background-color: #b4b3b3;
 }
+
 
 /* cart ativo */
 .cart a.active {

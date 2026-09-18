@@ -98,13 +98,13 @@ export default function ComoFunciona(){
         <Item
           index={2}
           pergunta="Como envio o presente?"
-          resposta="Escolha o presente desejado, copie a chave PIX e realize o pagamento."
+          resposta="Escolha o presente desejado, copie a chave PIX e envie o valor."
         />
 
         <Item
           index={3}
           pergunta="Posso escolher mais de um presente?"
-          resposta="Sim, você pode escolher quantos presentes desejar."
+          resposta="Sim, você pode escolher quantos presentes desejar abençoar."
         />
 
         <Item
