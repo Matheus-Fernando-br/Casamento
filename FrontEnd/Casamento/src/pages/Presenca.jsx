@@ -2,8 +2,7 @@ import Navbar from "../components/Navbar";
 import BotaoVoltar from "../components/BotaoVoltar";
 import { useState } from "react";
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "https://casamento-rg0q.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function aguardarCincoSegundos() {
   return new Promise((resolve) => {

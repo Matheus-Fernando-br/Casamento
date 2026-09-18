@@ -2,33 +2,30 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const fs = require("fs");
-const path = require("path");
 const crypto = require("crypto");
 const axios = require("axios");
+const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const arquivo = path.join(__dirname, "convidados.json");
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SECRET_KEY,
+  {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  },
+);
+
 const sessoes = new Set();
 
-function lerConvidados() {
-  if (!fs.existsSync(arquivo)) {
-    fs.writeFileSync(arquivo, "[]");
-  }
-
-  return JSON.parse(fs.readFileSync(arquivo, "utf8"));
-}
-
-function salvarConvidados(lista) {
-  fs.writeFileSync(arquivo, JSON.stringify(lista, null, 2));
-}
-
-function gerarId() {
-  return crypto.randomUUID();
+function gerarToken() {
+  return crypto.randomBytes(32).toString("hex");
 }
 
 function autenticarAdmin(req, res, next) {
@@ -43,18 +40,49 @@ function autenticarAdmin(req, res, next) {
   next();
 }
 
-async function enviarNotificacaoTelegram(pessoa, convidados) {
+function validarPessoa(nome, telefone) {
+  if (!nome || !telefone) {
+    return "Nome e telefone são obrigatórios";
+  }
+
+  if (nome.trim().length < 1 || nome.trim().length > 150) {
+    return "O nome deve possuir entre 1 e 150 caracteres";
+  }
+
+  if (telefone.trim().length < 1 || telefone.trim().length > 40) {
+    return "O telefone deve possuir entre 1 e 40 caracteres";
+  }
+
+  return null;
+}
+
+async function buscarConfirmacoes() {
+  const { data, error } = await supabase
+    .from("confirmacoes")
+    .select("id, nome, telefone, data")
+    .order("data", { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return data || [];
+}
+
+async function enviarNotificacaoTelegram(pessoa, confirmacoes) {
   if (!process.env.BOT_TOKEN || !process.env.CHAT_ID) {
-    console.log("BOT_TOKEN ou CHAT_ID não configurado.");
+    console.warn("BOT_TOKEN ou CHAT_ID não configurado.");
     return;
   }
 
-  const lista = convidados
-    .map(
-      (convidado, index) =>
-        `${index + 1}. ${convidado.nome} - ${convidado.telefone}`,
-    )
-    .join("\n");
+  const lista = confirmacoes.length
+    ? confirmacoes
+        .map(
+          (convidado, index) =>
+            `${index + 1}. ${convidado.nome} - ${convidado.telefone}`,
+        )
+        .join("\n")
+    : "Nenhum convidado.";
 
   const mensagem = [
     "🎉 NOVA CONFIRMAÇÃO DE PRESENÇA",
@@ -63,9 +91,9 @@ async function enviarNotificacaoTelegram(pessoa, convidados) {
     `📱 Telefone: ${pessoa.telefone}`,
     "",
     "📋 LISTA ATUALIZADA",
-    lista || "Nenhum convidado.",
+    lista,
     "",
-    `👥 Total: ${convidados.length}`,
+    `👥 Total: ${confirmacoes.length}`,
   ].join("\n");
 
   await axios.post(
@@ -89,7 +117,7 @@ app.post("/admin/login", (req, res) => {
     });
   }
 
-  const token = crypto.randomBytes(32).toString("hex");
+  const token = gerarToken();
   sessoes.add(token);
 
   return res.json({
@@ -110,122 +138,171 @@ app.post("/admin/logout", autenticarAdmin, (req, res) => {
   });
 });
 
-app.get("/admin/confirmacoes", autenticarAdmin, (req, res) => {
-  return res.json(lerConvidados());
+app.get("/admin/confirmacoes", autenticarAdmin, async (req, res) => {
+  try {
+    const confirmacoes = await buscarConfirmacoes();
+
+    return res.json(confirmacoes);
+  } catch (error) {
+    console.error("Erro ao listar confirmações:", error);
+
+    return res.status(500).json({
+      erro: "Erro ao buscar confirmações",
+    });
+  }
 });
 
-app.post("/admin/confirmacoes", autenticarAdmin, (req, res) => {
-  const { nome, telefone } = req.body;
+app.post("/admin/confirmacoes", autenticarAdmin, async (req, res) => {
+  try {
+    const { nome, telefone } = req.body;
+    const erroValidacao = validarPessoa(nome, telefone);
 
-  if (!nome || !telefone) {
-    return res.status(400).json({
-      erro: "Nome e telefone são obrigatórios",
+    if (erroValidacao) {
+      return res.status(400).json({
+        erro: erroValidacao,
+      });
+    }
+
+    const { data, error } = await supabase
+      .from("confirmacoes")
+      .insert({
+        nome: nome.trim(),
+        telefone: telefone.trim(),
+      })
+      .select("id, nome, telefone, data")
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return res.status(201).json(data);
+  } catch (error) {
+    console.error("Erro ao adicionar confirmação:", error);
+
+    return res.status(500).json({
+      erro: "Erro ao adicionar pessoa",
     });
   }
-
-  const convidados = lerConvidados();
-
-  const pessoa = {
-    id: gerarId(),
-    nome: nome.trim(),
-    telefone: telefone.trim(),
-    data: new Date().toISOString(),
-  };
-
-  convidados.push(pessoa);
-  salvarConvidados(convidados);
-
-  return res.status(201).json(pessoa);
 });
 
-app.put("/admin/confirmacoes/:id", autenticarAdmin, (req, res) => {
-  const { id } = req.params;
-  const { nome, telefone } = req.body;
+app.put("/admin/confirmacoes/:id", autenticarAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nome, telefone } = req.body;
+    const erroValidacao = validarPessoa(nome, telefone);
 
-  if (!nome || !telefone) {
-    return res.status(400).json({
-      erro: "Nome e telefone são obrigatórios",
+    if (erroValidacao) {
+      return res.status(400).json({
+        erro: erroValidacao,
+      });
+    }
+
+    const { data, error } = await supabase
+      .from("confirmacoes")
+      .update({
+        nome: nome.trim(),
+        telefone: telefone.trim(),
+      })
+      .eq("id", id)
+      .select("id, nome, telefone, data")
+      .single();
+
+    if (error) {
+      if (error.code === "PGRST116") {
+        return res.status(404).json({
+          erro: "Confirmação não encontrada",
+        });
+      }
+
+      throw error;
+    }
+
+    return res.json(data);
+  } catch (error) {
+    console.error("Erro ao editar confirmação:", error);
+
+    return res.status(500).json({
+      erro: "Erro ao editar pessoa",
     });
   }
-
-  const convidados = lerConvidados();
-  const indice = convidados.findIndex((pessoa) => pessoa.id === id);
-
-  if (indice === -1) {
-    return res.status(404).json({
-      erro: "Confirmação não encontrada",
-    });
-  }
-
-  convidados[indice] = {
-    ...convidados[indice],
-    nome: nome.trim(),
-    telefone: telefone.trim(),
-  };
-
-  salvarConvidados(convidados);
-
-  return res.json(convidados[indice]);
 });
 
-app.delete("/admin/confirmacoes/:id", autenticarAdmin, (req, res) => {
-  const { id } = req.params;
-  const convidados = lerConvidados();
-  const novaLista = convidados.filter((pessoa) => pessoa.id !== id);
+app.delete("/admin/confirmacoes/:id", autenticarAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
 
-  if (novaLista.length === convidados.length) {
-    return res.status(404).json({
-      erro: "Confirmação não encontrada",
+    const { data, error } = await supabase
+      .from("confirmacoes")
+      .delete()
+      .eq("id", id)
+      .select("id")
+      .single();
+
+    if (error) {
+      if (error.code === "PGRST116") {
+        return res.status(404).json({
+          erro: "Confirmação não encontrada",
+        });
+      }
+
+      throw error;
+    }
+
+    return res.json({
+      sucesso: true,
+      id: data.id,
+    });
+  } catch (error) {
+    console.error("Erro ao excluir confirmação:", error);
+
+    return res.status(500).json({
+      erro: "Erro ao excluir pessoa",
     });
   }
-
-  salvarConvidados(novaLista);
-
-  return res.json({
-    sucesso: true,
-  });
 });
 
 app.post("/confirmar", async (req, res) => {
   try {
     const { nome, telefone } = req.body;
+    const erroValidacao = validarPessoa(nome, telefone);
 
-    if (!nome || !telefone) {
+    if (erroValidacao) {
       return res.status(400).json({
-        erro: "Nome e telefone são obrigatórios",
+        erro: erroValidacao,
       });
     }
 
-    const convidados = lerConvidados();
+    const { data: pessoa, error: erroInsercao } = await supabase
+      .from("confirmacoes")
+      .insert({
+        nome: nome.trim(),
+        telefone: telefone.trim(),
+      })
+      .select("id, nome, telefone, data")
+      .single();
 
-    const pessoa = {
-      id: gerarId(),
-      nome: nome.trim(),
-      telefone: telefone.trim(),
-      data: new Date().toISOString(),
-    };
+    if (erroInsercao) {
+      throw erroInsercao;
+    }
 
-    convidados.push(pessoa);
-    salvarConvidados(convidados);
+    const confirmacoes = await buscarConfirmacoes();
 
     try {
-      await enviarNotificacaoTelegram(pessoa, convidados);
+      await enviarNotificacaoTelegram(pessoa, confirmacoes);
     } catch (erroTelegram) {
-      console.error(
-        "Falha ao enviar notificação para o Telegram:",
-        erroTelegram,
-      );
+      console.error("Erro ao enviar notificação ao Telegram:", erroTelegram);
     }
 
     return res.json({
       sucesso: true,
       pessoa,
     });
-  } catch (erro) {
-    console.error(erro);
+  } catch (error) {
+    console.error("Erro ao registrar confirmação:", error);
 
     return res.status(500).json({
-      erro: "Erro interno",
+      erro: "Erro interno ao registrar confirmação",
     });
   }
 });
