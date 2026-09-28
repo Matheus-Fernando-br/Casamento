@@ -88,7 +88,9 @@ export default function Presenca() {
         return response.json();
       });
 
-      await Promise.allSettled([requisicao, aguardarCincoSegundos()]);
+      // Promise.allSettled não lança erro quando o fetch falha. Isso fazia
+      // o formulário mostrar sucesso mesmo com erro no backend/Supabase.
+      await Promise.all([requisicao, aguardarCincoSegundos()]);
 
       setEnviando(false);
       setEnviado(true);
