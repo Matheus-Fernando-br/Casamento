@@ -56,14 +56,7 @@ export default function Navbar() {
           {" "}
           Presentes{" "}
         </NavLink>{" "}
-        <NavLink
-          to="/como-funciona"
-          className={({ isActive }) => (isActive ? "active" : "")}
-          onClick={fecharMenu}
-        >
-          {" "}
-          Como funciona{" "}
-        </NavLink>{" "}
+        {/*
         <NavLink
           to="/presenca"
           className={({ isActive }) => (isActive ? "active" : "")}
@@ -72,6 +65,7 @@ export default function Navbar() {
           {" "}
           Confirmação de Presença{" "}
         </NavLink>{" "}
+        */}
         <NavLink
           to="/local"
           className={({ isActive }) => (isActive ? "active" : "")}
@@ -79,6 +73,14 @@ export default function Navbar() {
         >
           {" "}
           Local{" "}
+        </NavLink>{" "}
+        <NavLink
+          to="/cha"
+          className={({ isActive }) => (isActive ? "active" : "")}
+          onClick={fecharMenu}
+        >
+          {" "}
+          Chá de Casa Nova{" "}
         </NavLink>{" "}
       </nav>{" "}
     </header>

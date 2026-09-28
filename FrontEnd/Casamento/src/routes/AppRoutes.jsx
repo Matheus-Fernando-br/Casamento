@@ -3,9 +3,9 @@ import Home from "../pages/Home";
 import Presentes from "../pages/Presentes";
 import Carrinho from "../pages/Carrinho";
 import Pix from "../pages/Pix";
-import ComoFunciona from "../pages/ComoFunciona";
 import Presenca from "../pages/Presenca";
 import Local from "../pages/Local";
+import Cha from "../pages/Cha";
 import LoginAdmin from "../pages/LoginAdmin";
 import PainelAdmin from "../pages/PainelAdmin";
 import ScrollToTop from "../components/ScrollToTop";
@@ -14,16 +14,14 @@ export default function AppRoutes() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/presentes" element={<Presentes />} />
         <Route path="/carrinho" element={<Carrinho />} />
         <Route path="/pix" element={<Pix />} />
-        <Route path="/como-funciona" element={<ComoFunciona />} />
         <Route path="/presenca" element={<Presenca />} />
         <Route path="/local" element={<Local />} />
-
+        <Route path="/cha" element={<Cha />} />
         <Route path="/area-dos-noivos" element={<LoginAdmin />} />
         <Route path="/painel-admin" element={<PainelAdmin />} />
       </Routes>

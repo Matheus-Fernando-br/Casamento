@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "https://casamento-rg0q.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function LoginAdmin() {
   const navigate = useNavigate();

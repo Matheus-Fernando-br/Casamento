@@ -10,14 +10,54 @@ function aguardarCincoSegundos() {
   });
 }
 
+function mascararTelefone(valor) {
+  const numeros = valor.replace(/\D/g, "").slice(0, 11);
+  if (numeros.length <= 2) {
+    return numeros;
+  }
+  if (numeros.length <= 7) {
+    return `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`;
+  }
+  return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7)}`;
+}
+function formatarNome(valor) {
+  return valor.replace(/[^A-Za-zÀ-ÿ\s]/g, "").replace(/\s{2,}/g, " ");
+}
+
 export default function Presenca() {
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [enviado, setEnviado] = useState(false);
   const [enviando, setEnviando] = useState(false);
 
+  const handleNomeChange = (event) => {
+    const valor = formatarNome(event.target.value);
+    setNome(valor);
+  };
+  const handleTelefoneChange = (event) => {
+    const valor = mascararTelefone(event.target.value);
+    setTelefone(valor);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const nomeLimpo = nome.trim().replace(/\s+/g, " ");
+
+    const partesNome = nomeLimpo.split(" ").filter(Boolean);
+    if (partesNome.length < 2) {
+      window.alert("Digite seu nome e sobrenome.");
+      return;
+    }
+    const telefoneNumeros = telefone.replace(/\D/g, "");
+
+    if (telefoneNumeros.length < 10 || telefoneNumeros.length > 11) {
+      window.alert("Digite um telefone válido com DDD.");
+      return;
+    }
+    if (enviando) {
+      return;
+    }
 
     const confirmar = window.confirm(
       `Confirma os dados?\n\nNome: ${nome}\nTelefone: ${telefone}`,
@@ -30,30 +70,38 @@ export default function Presenca() {
     setEnviando(true);
     setEnviado(false);
 
-    const requisicao = fetch(`${API_URL}/confirmar`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nome,
-        telefone,
-      }),
-    }).then(async (response) => {
-      if (!response.ok) {
-        throw new Error("Não foi possível enviar a confirmação.");
-      }
+    try {
+      const requisicao = fetch(`${API_URL}/confirmar`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nome,
+          telefone,
+        }),
+      }).then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Não foi possível enviar a confirmação.");
+        }
 
-      return response.json();
-    });
+        return response.json();
+      });
 
-    await Promise.allSettled([requisicao, aguardarCincoSegundos()]);
+      await Promise.allSettled([requisicao, aguardarCincoSegundos()]);
 
-    setEnviando(false);
-    setEnviado(true);
+      setEnviando(false);
+      setEnviado(true);
 
-    setNome("");
-    setTelefone("");
+      setNome("");
+      setTelefone("");
+    } catch (error) {
+      console.error("Erro ao confirmar presença:", error.message);
+      window.alert("Não foi possível confirmar sua presença. Tente novamente.");
+      setEnviado(false);
+    } finally {
+      setEnviando(false);
+    }
   };
 
   return (
@@ -93,7 +141,7 @@ export default function Presenca() {
             <input
               type="text"
               value={nome}
-              onChange={(event) => setNome(event.target.value)}
+              onChange={handleNomeChange}
               placeholder="Nome completo do convidado"
               required
               disabled={enviando}
@@ -108,7 +156,7 @@ export default function Presenca() {
             <input
               type="tel"
               value={telefone}
-              onChange={(event) => setTelefone(event.target.value)}
+              onChange={handleTelefoneChange}
               placeholder="Telefone para contato"
               required
               disabled={enviando}

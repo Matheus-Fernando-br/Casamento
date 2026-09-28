@@ -108,8 +108,8 @@ async function enviarNotificacaoTelegram(pessoa, confirmacoes) {
 app.post("/admin/login", (req, res) => {
   const { login, senha } = req.body;
 
-  const loginConfigurado = process.env.ADMIN_LOGIN || "vida";
-  const senhaConfigurada = process.env.ADMIN_PASSWORD || "1704";
+  const loginConfigurado = process.env.ADMIN_LOGIN;
+  const senhaConfigurada = process.env.ADMIN_PASSWORD;
 
   if (login !== loginConfigurado || senha !== senhaConfigurada) {
     return res.status(401).json({
@@ -275,6 +275,51 @@ app.post("/confirmar", async (req, res) => {
 
     const { data: pessoa, error: erroInsercao } = await supabase
       .from("confirmacoes")
+      .insert({
+        nome: nome.trim(),
+        telefone: telefone.trim(),
+      })
+      .select("id, nome, telefone, data")
+      .single();
+
+    if (erroInsercao) {
+      throw erroInsercao;
+    }
+
+    const confirmacoes = await buscarConfirmacoes();
+
+    try {
+      await enviarNotificacaoTelegram(pessoa, confirmacoes);
+    } catch (erroTelegram) {
+      console.error("Erro ao enviar notificação ao Telegram:", erroTelegram);
+    }
+
+    return res.json({
+      sucesso: true,
+      pessoa,
+    });
+  } catch (error) {
+    console.error("Erro ao registrar confirmação:", error);
+
+    return res.status(500).json({
+      erro: "Erro interno ao registrar confirmação",
+    });
+  }
+});
+
+app.post("/confirmar/cha", async (req, res) => {
+  try {
+    const { nome, telefone } = req.body;
+    const erroValidacao = validarPessoa(nome, telefone);
+
+    if (erroValidacao) {
+      return res.status(400).json({
+        erro: erroValidacao,
+      });
+    }
+
+    const { data: pessoa, error: erroInsercao } = await supabase
+      .from("cha-de-casa-nova")
       .insert({
         nome: nome.trim(),
         telefone: telefone.trim(),

@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import CarouselFotos from "../components/CarouselFotos";
 import FrasePresente from "../components/FrasePresente";
+import Faq from "../components/Faq";
 import FrasePix from "../components/FrasePix";
 
 export default function Home() {
@@ -15,6 +16,8 @@ export default function Home() {
       <CarouselFotos />
 
       <FrasePresente />
+
+      <Faq />
 
       <FrasePix />
 
