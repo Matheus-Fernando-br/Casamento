@@ -9,10 +9,7 @@ const TIPOS = {
 };
 
 function formatarData(data) {
-  if (!data) {
-    return "Data não informada";
-  }
-
+  if (!data) return "Data não informada";
   return new Date(data).toLocaleString("pt-BR");
 }
 
@@ -20,15 +17,12 @@ function formatarTelefone(valor) {
   const numeros = String(valor || "")
     .replace(/\D/g, "")
     .slice(0, 11);
-
   if (numeros.length === 11) {
     return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7)}`;
   }
-
   if (numeros.length === 10) {
     return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 6)}-${numeros.slice(6)}`;
   }
-
   return valor;
 }
 
@@ -62,11 +56,7 @@ export default function PainelAdmin() {
       }
 
       const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.erro || "Erro na operação.");
-      }
-
+      if (!response.ok) throw new Error(data.erro || "Erro na operação.");
       return data;
     },
     [navigate, token],
@@ -77,7 +67,6 @@ export default function PainelAdmin() {
       try {
         setErro("");
         setCarregando(true);
-
         const data = await requisicaoAdmin(
           `/admin/confirmacoes?tipo=${tipoSelecionado}`,
         );
@@ -96,14 +85,8 @@ export default function PainelAdmin() {
       navigate("/area-dos-noivos");
       return;
     }
-
     carregarConfirmacoes(tipo);
   }, [carregarConfirmacoes, navigate, tipo, token]);
-
-  const trocarTipo = (novoTipo) => {
-    setTipo(novoTipo);
-    limparFormulario();
-  };
 
   function limparFormulario() {
     setNome("");
@@ -111,19 +94,22 @@ export default function PainelAdmin() {
     setEditandoId(null);
   }
 
+  const trocarTipo = (novoTipo) => {
+    setTipo(novoTipo);
+    limparFormulario();
+  };
+
   const salvarPessoa = async (event) => {
     event.preventDefault();
 
     try {
       setErro("");
-
       const metodo = editandoId ? "PUT" : "POST";
       const caminhoBase = editandoId
         ? `/admin/confirmacoes/${editandoId}`
         : "/admin/confirmacoes";
-      const caminho = `${caminhoBase}?tipo=${tipo}`;
 
-      await requisicaoAdmin(caminho, {
+      await requisicaoAdmin(`${caminhoBase}?tipo=${tipo}`, {
         method: metodo,
         body: JSON.stringify({ nome, telefone }),
       });
@@ -143,9 +129,8 @@ export default function PainelAdmin() {
   };
 
   const excluirPessoa = async (id) => {
-    if (!window.confirm("Tem certeza que deseja excluir esta confirmação?")) {
+    if (!window.confirm("Tem certeza que deseja excluir esta confirmação?"))
       return;
-    }
 
     try {
       setErro("");
@@ -172,58 +157,74 @@ export default function PainelAdmin() {
   return (
     <main className="admin-page">
       <div className="admin-container">
-        <div className="admin-topbar">
-          <div>
-            <h1>Painel Administrativo</h1>
-            <p>
-              {confirmacoes.length} confirmação(ões) em {TIPOS[tipo]}
-            </p>
+        <header className="admin-topbar">
+          <div className="admin-brand">
+            <span className="admin-eyebrow">Área dos noivos</span>
+            <h1>Painel de confirmações</h1>
+            <p>Organize os convidados do seu grande dia.</p>
           </div>
+          <button className="admin-button danger admin-logout" onClick={sair}>
+            Sair da conta
+          </button>
+        </header>
 
-          <div className="admin-actions">
-            <button className="admin-button danger" onClick={sair}>
-              Sair
+        <section className="admin-card admin-overview-card">
+          <div className="admin-overview-copy">
+            <span className="admin-eyebrow">Evento selecionado</span>
+            <h2>{TIPOS[tipo]}</h2>
+            <p>Visualize, adicione e gerencie as confirmações deste evento.</p>
+          </div>
+          <div className="admin-stat">
+            <strong>{confirmacoes.length}</strong>
+            <span>confirmações</span>
+          </div>
+        </section>
+
+        <nav className="admin-filter" aria-label="Filtrar evento">
+          {Object.entries(TIPOS).map(([chave, titulo]) => (
+            <button
+              key={chave}
+              type="button"
+              className={tipo === chave ? "active" : ""}
+              onClick={() => trocarTipo(chave)}
+            >
+              <span className="admin-filter-dot" />
+              {titulo}
             </button>
-          </div>
-        </div>
+          ))}
+        </nav>
 
-        <div className="admin-card">
-          <h2>Lista de confirmações</h2>
-
-          <div
-            className="admin-actions"
-            style={{ marginBottom: 24, flexWrap: "wrap" }}
-          >
-            {Object.entries(TIPOS).map(([chave, titulo]) => (
+        <section className="admin-card admin-workspace">
+          <div className="admin-section-heading">
+            <div>
+              <span className="admin-eyebrow">Cadastro rápido</span>
+              <h2>{editandoId ? "Editar convidado" : "Adicionar convidado"}</h2>
+            </div>
+            {editandoId && (
               <button
-                key={chave}
+                className="admin-link-button"
                 type="button"
-                className={`admin-button ${tipo === chave ? "" : "secondary"}`}
-                onClick={() => trocarTipo(chave)}
+                onClick={limparFormulario}
               >
-                {titulo}
+                Cancelar edição
               </button>
-            ))}
+            )}
           </div>
 
           {erro && <div className="admin-error">{erro}</div>}
 
-          <h2>
-            {editandoId ? "Editar pessoa" : `Adicionar em ${TIPOS[tipo]}`}
-          </h2>
-
-          <form className="admin-form" onSubmit={salvarPessoa}>
+          <form className="admin-form admin-form-grid" onSubmit={salvarPessoa}>
             <label>
               Nome completo
               <input
                 type="text"
                 value={nome}
                 onChange={(event) => setNome(event.target.value)}
+                placeholder="Ex.: Matheus Fernando"
                 required
                 maxLength={150}
               />
             </label>
-
             <label>
               Telefone
               <input
@@ -234,58 +235,58 @@ export default function PainelAdmin() {
                 required
               />
             </label>
-
-            <div className="admin-actions">
-              <button className="admin-button" type="submit">
-                {editandoId ? "Salvar alterações" : "Adicionar pessoa"}
-              </button>
-
-              {editandoId && (
-                <button
-                  className="admin-button secondary"
-                  type="button"
-                  onClick={limparFormulario}
-                >
-                  Cancelar edição
-                </button>
-              )}
-            </div>
+            <button className="admin-button" type="submit">
+              {editandoId ? "Salvar alterações" : "Adicionar convidado"}
+            </button>
           </form>
+        </section>
 
-          <h2 style={{ marginBottom: 10 }}>{TIPOS[tipo]}</h2>
-          <button
-            className="admin-button secondary"
-            onClick={() => carregarConfirmacoes(tipo)}
-          >
-            Atualizar
-          </button>
+        <section className="admin-card admin-list-card">
+          <div className="admin-section-heading">
+            <div>
+              <span className="admin-eyebrow">Lista atualizada</span>
+              <h2>Convidados de {TIPOS[tipo]}</h2>
+            </div>
+            <button
+              className="admin-button secondary admin-refresh"
+              onClick={() => carregarConfirmacoes(tipo)}
+              type="button"
+            >
+              Atualizar lista
+            </button>
+          </div>
 
           {carregando ? (
-            <p>Carregando confirmações...</p>
+            <div className="admin-loading">Carregando confirmações...</div>
           ) : confirmacoes.length === 0 ? (
             <div className="admin-empty">
-              Nenhuma confirmação cadastrada em {TIPOS[tipo]}.
+              <strong>A lista ainda está vazia</strong>
+              <span>As novas confirmações aparecerão aqui.</span>
             </div>
           ) : (
             <ul className="admin-list">
-              {confirmacoes.map((pessoa) => (
+              {confirmacoes.map((pessoa, index) => (
                 <li className="admin-list-item" key={pessoa.id}>
-                  <div>
+                  <span className="admin-list-index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="admin-person">
                     <strong>{pessoa.nome}</strong>
                     <p>{formatarTelefone(pessoa.telefone)}</p>
-                    <small>Confirmado em: {formatarData(pessoa.data)}</small>
+                    <small>Confirmado em {formatarData(pessoa.data)}</small>
                   </div>
-
-                  <div className="admin-actions">
+                  <div className="admin-actions admin-item-actions">
                     <button
                       className="admin-button secondary"
                       onClick={() => iniciarEdicao(pessoa)}
+                      type="button"
                     >
                       Editar
                     </button>
                     <button
                       className="admin-button danger"
                       onClick={() => excluirPessoa(pessoa.id)}
+                      type="button"
                     >
                       Excluir
                     </button>
@@ -294,7 +295,7 @@ export default function PainelAdmin() {
               ))}
             </ul>
           )}
-        </div>
+        </section>
       </div>
     </main>
   );
