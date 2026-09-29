@@ -97,7 +97,7 @@ async function enviarNotificacaoTelegram(pessoa, confirmacoes, tipo) {
 
   const titulo =
     tipo === "cha"
-      ? "🎉 NOVA CONFIRMAÇÃO - CHÁ REVELAÇÃO"
+      ? "🎉 NOVA CONFIRMAÇÃO - CHÁ DE CASA NOVA"
       : "🎉 NOVA CONFIRMAÇÃO DE PRESENÇA";
 
   const lista = confirmacoes.length

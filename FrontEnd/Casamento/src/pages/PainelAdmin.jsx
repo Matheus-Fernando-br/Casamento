@@ -5,7 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const TIPOS = {
   casamento: "Casamento",
-  cha: "Chá Revelação",
+  cha: "Chá de Casa Nova",
 };
 
 function formatarData(data) {

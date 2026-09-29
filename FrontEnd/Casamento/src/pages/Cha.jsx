@@ -89,8 +89,30 @@ export default function Cha() {
         <BotaoVoltar />
         <div className="admin-container">
           <div className="admin-card">
-            <h1>Chá Revelação</h1>
-            <p>Confirme sua presença no chá revelação.</p>
+            <h1>Chá de Casa Nova</h1>
+            <p>
+              Confirme sua presença no chá de casa nova preenchendo os dados
+              abaixo.
+            </p>
+
+            <div
+              style={{
+                background: "#f5f5f5",
+                padding: 20,
+                borderRadius: 12,
+                marginBottom: 30,
+                lineHeight: 2,
+              }}
+            >
+              <h2>📍 Informações do Evento</h2>
+
+              <p>
+                🏡 Local: Em cima do Teixerão - R. Rosa, 341 - Primavera,
+                Timóteo - MG
+              </p>
+              <p>📅 Data: 16/01/2027 (Sábado)</p>
+              <p>🕖 Horário: 16:00</p>
+            </div>
 
             <form className="admin-form" onSubmit={handleSubmit}>
               <label>
