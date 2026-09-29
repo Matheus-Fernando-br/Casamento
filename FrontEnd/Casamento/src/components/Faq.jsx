@@ -1,24 +1,25 @@
-import Navbar from "../components/Navbar";
-import BotaoVoltar from "../components/BotaoVoltar";
 import { useState } from "react";
 
-// Componente extraído para FORA de Faq
 function Item({ index, pergunta, resposta, isOpen, onToggle }) {
   return (
     <div className="faq-item">
-      <div className="faq-question" onClick={() => onToggle(index)}>
+      <button
+        type="button"
+        className="faq-question"
+        onClick={() => onToggle(index)}
+        aria-expanded={isOpen}
+        aria-controls={`faq-answer-${index}`}
+      >
         <h3>{pergunta}</h3>
-
         <i
-          className={
-            isOpen
-              ? "bi bi-arrow-right-square-fill icon rotate"
-              : "bi bi-arrow-right-square-fill icon"
-          }
-        ></i>
-      </div>
-
-      <div className={isOpen ? "faq-answer open" : "faq-answer"}>
+          className={`bi bi-arrow-right-short icon ${isOpen ? "rotate" : ""}`}
+          aria-hidden="true"
+        />
+      </button>
+      <div
+        id={`faq-answer-${index}`}
+        className={`faq-answer ${isOpen ? "open" : ""}`}
+      >
         <p>{resposta}</p>
       </div>
     </div>
@@ -27,56 +28,47 @@ function Item({ index, pergunta, resposta, isOpen, onToggle }) {
 
 export default function Faq() {
   const [open, setOpen] = useState(null);
-
-  function toggle(index) {
-    setOpen(open === index ? null : index);
-  }
-
+  const toggle = (index) =>
+    setOpen((current) => (current === index ? null : index));
+  const perguntas = [
+    [
+      1,
+      "Preciso criar conta?",
+      "Não. O processo é simples e rápido, sem necessidade de cadastro.",
+    ],
+    [
+      2,
+      "Como envio o presente?",
+      "Escolha o presente desejado, copie a chave PIX e envie o valor.",
+    ],
+    [
+      3,
+      "Posso escolher mais de um presente?",
+      "Sim, você pode escolher quantos presentes desejar abençoar.",
+    ],
+    [
+      4,
+      "Posso enviar qualquer valor?",
+      "Sim, qualquer valor doado será muito bem aceito, desde que venha do coração!",
+    ],
+  ];
   return (
-    <>
-      <Navbar />
-
-      <BotaoVoltar />
-
-      <div className="faq">
-        <div style={{ marginBottom: 40, lineHeight: 2 }}>
-          <h1>Como funciona ❓</h1>
-
-          <p>Veja abaixo as principais dúvidas sobre os presentes.</p>
-        </div>
-
-        <Item
-          index={1}
-          pergunta="Preciso criar conta?"
-          resposta="Não. O processo é simples e rápido, sem necessidade de cadastro."
-          isOpen={open === 1}
-          onToggle={toggle}
-        />
-
-        <Item
-          index={2}
-          pergunta="Como envio o presente?"
-          resposta="Escolha o presente desejado, copie a chave PIX e envie o valor."
-          isOpen={open === 2}
-          onToggle={toggle}
-        />
-
-        <Item
-          index={3}
-          pergunta="Posso escolher mais de um presente?"
-          resposta="Sim, você pode escolher quantos presentes desejar abençoar."
-          isOpen={open === 3}
-          onToggle={toggle}
-        />
-
-        <Item
-          index={4}
-          pergunta="Posso enviar qualquer valor?"
-          resposta="Sim, qualquer valor doado será muito bem aceito, desde que venha do coração!"
-          isOpen={open === 4}
-          onToggle={toggle}
-        />
+    <section className="faq" aria-labelledby="faq-title">
+      <div>
+        <h2 id="faq-title">Como funciona</h2>
+        <p>Algumas respostas para tornar esse gesto ainda mais simples.</p>
       </div>
-    </>
+      {perguntas.map(([index, pergunta, resposta]) => (
+        <Item
+          key={index}
+          index={index}
+          pergunta={pergunta}
+          resposta={resposta}
+          isOpen={open === index}
+          onToggle={toggle}
+        />
+      ))}
+      <hr className="divider" />
+    </section>
   );
 }

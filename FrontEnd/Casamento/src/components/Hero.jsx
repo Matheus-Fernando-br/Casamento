@@ -86,8 +86,6 @@ export default function Hero() {
       <div className="overlay"></div>
 
       <div className="hero-content">
-        <h1>Matheus & Kariny 💍</h1>
-
         <p>Nosso casamento será dia 17 de Abril de 2027 às 19:00 💖</p>
       </div>
 

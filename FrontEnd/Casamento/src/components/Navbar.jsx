@@ -22,10 +22,14 @@ export default function Navbar() {
         <span></span> <span></span> <span></span>{" "}
       </button>{" "}
       {/* LOGO */}{" "}
-      <NavLink to="/" className="logo" onClick={fecharMenu}>
-        {" "}
-        Matheus & Kariny 💍{" "}
-      </NavLink>{" "}
+      <NavLink
+        to="/"
+        className="logo"
+        onClick={fecharMenu}
+        aria-label="Ir para a página inicial"
+      >
+        Matheus &amp; Kariny
+      </NavLink>
       {/* CARRINHO */}{" "}
       <NavLink
         to="/carrinho"

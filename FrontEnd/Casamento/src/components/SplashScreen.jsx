@@ -1,23 +1,22 @@
-import { motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function SplashScreen({ onFinish }) {
-  const [show, setShow] = useState(true)
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShow(false)
-      onFinish()
-    }, 3500) // tempo total da splash
+      setShow(false);
+      onFinish();
+    }, 3500); // tempo total da splash
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
-  if (!show) return null
+  if (!show) return null;
 
   return (
     <div className="splash-container">
-      
       {/* coração */}
       <motion.div
         className="heart"
@@ -40,7 +39,8 @@ export default function SplashScreen({ onFinish }) {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
       >
-        "Uma vez que já não são dois, mas um só, que ninguém separe o que Deus uniu."
+        "Uma vez que já não são dois, mas um só, que ninguém separe o que Deus
+        uniu."
       </motion.h3>
 
       <motion.p
@@ -58,7 +58,6 @@ export default function SplashScreen({ onFinish }) {
         animate={{ opacity: 1 }}
         transition={{ delay: 3 }}
       />
-
     </div>
-  )
+  );
 }

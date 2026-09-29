@@ -64,7 +64,7 @@ export default function CarouselFotos() {
         </div>
       </div>
 
-      <h2 className="section-title">Nossa história</h2>
+      <h2 className="section-title"></h2>
 
       <div className="historia">
         <p>
@@ -87,9 +87,8 @@ export default function CarouselFotos() {
           construindo nossa história com <strong>amor, fé e propósito</strong>,
           aprendendo juntos e fortalecendo aquilo que nos une. Agora, nos
           preparamos para um novo capítulo, onde dois caminhos se tornam um só.
-          <strong>14 de novembro de 2026, às 15:30</strong>. Criamos este espaço
-          para compartilhar nossa trajetória e, se fizer sentido para você,
-          participar conosco deste momento tão importante.
+          Criamos este espaço para compartilhar nossa trajetória e, se fizer
+          sentido para você, participar conosco deste momento tão importante.
         </p>
       </div>
     </div>
