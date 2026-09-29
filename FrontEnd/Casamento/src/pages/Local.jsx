@@ -9,7 +9,7 @@ export default function Local() {
       <BotaoVoltar />
 
       <section className="local-container">
-        <div className="local-header">
+        <div className="presentes-header">
           <h1>Local do Evento 📍</h1>
 
           <p>

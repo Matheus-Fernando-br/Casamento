@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import BotaoVoltar from "../components/BotaoVoltar";
+import Container from "../components/Container";
 import { categorias } from "../data/presentes";
 import { useCart } from "../context/CartContext";
+import FrasePix from "../components/FrasePix";
+import CardPresente from "../components/CardPresente";
 
 export default function Presentes() {
   const navigate = useNavigate();
@@ -34,11 +37,7 @@ export default function Presentes() {
 
   useEffect(() => {
     function handleScroll() {
-      if (window.scrollY > 400) {
-        setShowTop(true);
-      } else {
-        setShowTop(false);
-      }
+      setShowTop(window.scrollY > 400);
     }
 
     window.addEventListener("scroll", handleScroll);
@@ -52,61 +51,77 @@ export default function Presentes() {
 
       <BotaoVoltar />
 
-      <div style={{ marginTop: 40, textAlign: "center" }}>
-        <h1>Lista de presentes 🎁</h1>
+      <Container>
+        <div className="presentes-header">
+          <h1>
+            Lista de presentes <span>🎁</span>
+          </h1>
 
-        <p>Escolha um presente para abençoar nosso casamento 💖</p>
-      </div>
-
-      <div className="categoria-filtro">
-        <p>Escolha a categoria</p>
-
-        <button onClick={() => scrollToCategoria("essenciais")}>
-          Essenciais da casa
-        </button>
-
-        <button onClick={() => scrollToCategoria("sala")}>Sala</button>
-
-        <button onClick={() => scrollToCategoria("quarto")}>Quarto</button>
-
-        <button onClick={() => scrollToCategoria("cozinha")}>Cozinha</button>
-
-        <button onClick={() => scrollToCategoria("limpeza")}>Limpeza</button>
-
-        <button onClick={() => scrollToCategoria("extras")}>Extras</button>
-      </div>
-
-      <div style={{ textAlign: "center", marginTop: 50 }}>
-        <button
-          className="pix-btn"
-          style={{ background: "green" }}
-          onClick={() => navigate("/carrinho")}
-        >
-          Ir para o carrinho
-        </button>
-      </div>
-
-      {categorias.map((categoria) => (
-        <div id={categoria.id} className="section" key={categoria.id}>
-          <h2 className="section-title">{categoria.titulo}</h2>
-
-          <div className="grid-presentes">
-            {categoria.itens.map((item) => (
-              <div className="card-presente" key={item.id}>
-                <img src={item.imagem} />
-
-                <h3>{item.nome}</h3>
-
-                <p>{item.descricao}</p>
-
-                <span>R$ {item.preco},00</span>
-
-                <button onClick={() => handleAdd(item)}>Adicionar</button>
-              </div>
-            ))}
-          </div>
+          <p>
+            Escolha um presente para fazer parte
+            <br />
+            desse novo capítulo da nossa história. 💖
+          </p>
         </div>
-      ))}
+
+        <div className="ou-divider">
+          <span></span>
+          <strong>ou</strong>
+          <span></span>
+        </div>
+
+        <FrasePix />
+
+        <div className="categoria-filtro">
+          <p>Escolha a categoria</p>
+
+          <button onClick={() => scrollToCategoria("essenciais")}>
+            Essenciais da casa
+          </button>
+
+          <button onClick={() => scrollToCategoria("sala")}>Sala</button>
+
+          <button onClick={() => scrollToCategoria("quarto")}>Quarto</button>
+
+          <button onClick={() => scrollToCategoria("cozinha")}>Cozinha</button>
+
+          <button onClick={() => scrollToCategoria("limpeza")}>Limpeza</button>
+
+          <button onClick={() => scrollToCategoria("extras")}>Extras</button>
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: 50 }}>
+          <button
+            className="pix-btn"
+            style={{ background: "green" }}
+            onClick={() => navigate("/carrinho")}
+          >
+            Ir para o carrinho
+          </button>
+        </div>
+
+        {categorias.map((categoria) => (
+          <div id={categoria.id} className="section" key={categoria.id}>
+            <h2 className="section-title">{categoria.titulo}</h2>
+
+            <div className="grid-presentes">
+              {categoria.itens.map((item) => (
+                <div className="card-presente" key={item.id}>
+                  <img src={item.imagem} />
+
+                  <h3>{item.nome}</h3>
+
+                  <p>{item.descricao}</p>
+
+                  <span>R$ {item.preco},00</span>
+
+                  <button onClick={() => handleAdd(item)}>Adicionar</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </Container>
 
       {showTop && (
         <button
@@ -121,8 +136,6 @@ export default function Presentes() {
           ↑
         </button>
       )}
-
-      {/* ALERT PREMIUM */}
 
       {showMsg && (
         <div className="cart-alert">Presente adicionado ao carrinho 💖</div>

@@ -69,7 +69,6 @@ export default function Navbar() {
           {" "}
           Confirmação de Presença{" "}
         </NavLink>{" "}
-        */}
         <NavLink
           to="/local"
           className={({ isActive }) => (isActive ? "active" : "")}
@@ -78,6 +77,7 @@ export default function Navbar() {
           {" "}
           Local{" "}
         </NavLink>{" "}
+        */}
         <NavLink
           to="/cha"
           className={({ isActive }) => (isActive ? "active" : "")}
