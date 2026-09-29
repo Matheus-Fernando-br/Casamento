@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import SecaoCha from "../components/SecaoCha";
 import CarouselFotos from "../components/CarouselFotos";
 import FrasePresente from "../components/FrasePresente";
 import Faq from "../components/Faq";
@@ -14,6 +15,8 @@ export default function Home() {
       <Hero />
 
       <CarouselFotos />
+
+      <SecaoCha />
 
       <FrasePresente />
 

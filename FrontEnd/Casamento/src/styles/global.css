@@ -502,6 +502,223 @@ p {
   color: var(--color-text);
   font-weight: 650;
 }
+
+/* =====================================================
+   SEÇÃO — CHÁ DE CASA NOVA NA HOME
+===================================================== */
+
+.cha-invite-section {
+  width: min(calc(100% - 40px), 860px);
+  margin: 0 auto;
+  padding: var(--space-7) 0;
+}
+
+.cha-invite-card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(28px, 6vw, 58px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(241, 231, 223, 0.78)
+  );
+  box-shadow: var(--shadow-sm);
+}
+
+.cha-invite-card::before {
+  content: "⌂";
+  position: absolute;
+  top: 24px;
+  right: 34px;
+  color: rgba(155, 106, 72, 0.18);
+  font-size: 54px;
+  line-height: 1;
+}
+
+.cha-invite-content {
+  position: relative;
+  z-index: 1;
+  max-width: 590px;
+}
+
+.cha-invite-eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--color-accent);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.cha-invite-content h2 {
+  margin-bottom: 14px;
+  color: var(--color-text);
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  letter-spacing: -0.055em;
+}
+
+.cha-invite-content p {
+  max-width: 440px;
+  color: var(--color-text-secondary);
+  font-size: 16px;
+}
+
+.cha-invite-details {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 0.8fr 0.7fr 1.5fr;
+  gap: 0;
+  margin: 38px 0 30px;
+  border-top: 1px solid var(--color-border-strong);
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+.cha-invite-detail {
+  min-height: 88px;
+  padding: 18px 20px;
+  border-right: 1px solid var(--color-border);
+}
+
+.cha-invite-detail:first-child {
+  padding-left: 0;
+}
+
+.cha-invite-detail:last-child {
+  padding-right: 0;
+  border-right: 0;
+}
+
+.cha-invite-detail span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-accent);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.cha-invite-detail strong {
+  display: block;
+  color: var(--color-text);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.cha-invite-detail small {
+  display: block;
+  margin-top: 4px;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.cha-invite-link {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-accent-dark);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    gap 0.2s ease,
+    color 0.2s ease;
+}
+
+.cha-invite-link span {
+  font-size: 19px;
+  line-height: 1;
+}
+
+.cha-invite-link:hover {
+  gap: 17px;
+  color: var(--color-accent);
+}
+
+/* =====================================================
+   RESPONSIVIDADE — CHÁ NA HOME
+===================================================== */
+
+@media (max-width: 700px) {
+  .cha-invite-section {
+    width: min(calc(100% - 32px), 580px);
+    padding: var(--space-6) 0;
+  }
+
+  .cha-invite-card {
+    padding: 30px 24px;
+    border-radius: var(--radius-lg);
+  }
+
+  .cha-invite-card::before {
+    top: 18px;
+    right: 22px;
+    font-size: 42px;
+  }
+
+  .cha-invite-content h2 {
+    max-width: 270px;
+    font-size: 2.2rem;
+  }
+
+  .cha-invite-content p {
+    font-size: 14px;
+  }
+
+  .cha-invite-details {
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 30px;
+  }
+
+  .cha-invite-detail {
+    min-height: auto;
+    padding: 16px 12px;
+  }
+
+  .cha-invite-detail:first-child {
+    padding-left: 0;
+  }
+
+  .cha-invite-detail:nth-child(2) {
+    padding-right: 0;
+    border-right: 0;
+  }
+
+  .cha-invite-detail:last-child {
+    grid-column: 1 / -1;
+    padding-right: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--color-border);
+    border-right: 0;
+  }
+
+  .cha-invite-detail strong {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 390px) {
+  .cha-invite-section {
+    width: calc(100% - 24px);
+  }
+
+  .cha-invite-card {
+    padding: 26px 20px;
+  }
+
+  .cha-invite-detail small {
+    font-size: 11px;
+  }
+}
+
 /* =====================================================
    9. PRESENTES, PIX DA HOME E RODAPÉ
 ===================================================== */
