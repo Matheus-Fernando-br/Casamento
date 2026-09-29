@@ -1,9 +1,13 @@
+/* =====================================================
+   1. TOKENS DO DESIGN SYSTEM
+===================================================== */
 :root {
   --color-background: #f7f7f5;
   --color-surface: rgba(255, 255, 255, 0.86);
   --color-surface-strong: #fff;
   --color-text: #1d1d1f;
   --color-text-secondary: #6e6e73;
+  --color-text-tertiary: #86868b;
   --color-border: rgba(29, 29, 31, 0.1);
   --color-border-strong: rgba(29, 29, 31, 0.16);
   --color-accent: #9b6a48;
@@ -33,6 +37,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
+/* =====================================================
+   2. RESET E BASE
+===================================================== */
 * {
   box-sizing: border-box;
 }
@@ -67,6 +74,9 @@ img {
 #root {
   min-height: 100svh;
 }
+/* =====================================================
+   3. TIPOGRAFIA
+===================================================== */
 h1,
 h2,
 h3,
@@ -96,10 +106,16 @@ h3 {
 p {
   line-height: 1.65;
 }
+/* =====================================================
+   4. ACESSIBILIDADE E FOCO
+===================================================== */
 :focus-visible {
   outline: 3px solid rgba(155, 106, 72, 0.45);
   outline-offset: 3px;
 }
+/* =====================================================
+   5. NAVBAR E NAVEGAÇÃO
+===================================================== */
 .navbar {
   position: fixed;
   z-index: 50;
@@ -244,6 +260,9 @@ p {
   font-size: 10px;
   line-height: 1;
 }
+/* =====================================================
+   6. LAYOUT, CONTAINERS E BOTÕES GERAIS
+===================================================== */
 .section,
 .local-container,
 .cart-container,
@@ -337,6 +356,9 @@ p {
   color: var(--color-text);
   background: var(--color-accent-soft);
 }
+/* =====================================================
+   7. HERO E CONTAGEM REGRESSIVA
+===================================================== */
 .hero {
   position: relative;
   min-height: min(860px, 100svh);
@@ -430,6 +452,9 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
+/* =====================================================
+   8. GALERIA E HISTÓRIA
+===================================================== */
 .carousel {
   width: 100vw;
   margin-left: calc(50% - 50vw);
@@ -477,6 +502,9 @@ p {
   color: var(--color-text);
   font-weight: 650;
 }
+/* =====================================================
+   9. PRESENTES, PIX DA HOME E RODAPÉ
+===================================================== */
 .gift-section {
   width: min(calc(100% - 40px), 680px);
   margin: 0 auto !important;
@@ -529,6 +557,9 @@ p {
 .area-noivos-button:hover {
   background: #fff;
 }
+/* =====================================================
+   10. FAQ
+===================================================== */
 .faq {
   max-width: 760px;
 }
@@ -592,6 +623,9 @@ p {
   color: var(--color-text-secondary);
   font-size: 14px;
 }
+/* =====================================================
+   11. LISTA DE PRESENTES
+===================================================== */
 .categoria-filtro {
   width: min(calc(100% - 40px), 960px);
   margin: var(--space-5) auto;
@@ -715,6 +749,9 @@ p {
     transform: translate(-50%, 0);
   }
 }
+/* =====================================================
+   12. CARRINHO E PAGAMENTO PIX
+===================================================== */
 .cart-container,
 .pix-container {
   max-width: 700px;
@@ -829,6 +866,9 @@ p {
   display: flex;
   width: 100%;
 }
+/* =====================================================
+   13. LOCAL DO EVENTO
+===================================================== */
 .local-container {
   max-width: 900px;
   padding-block: var(--space-7);
@@ -870,6 +910,9 @@ p {
   background: var(--color-surface-strong);
   font-size: 14px;
 }
+/* =====================================================
+   14. ÁREA DOS NOIVOS E FORMULÁRIOS
+===================================================== */
 .admin-page {
   min-height: 100vh;
   padding: 132px 20px 72px;
@@ -1079,6 +1122,9 @@ p {
   padding: 8px 12px;
   font-size: 12px;
 }
+/* =====================================================
+   15. SPLASH SCREEN E ESTADOS DE CARREGAMENTO
+===================================================== */
 .splash-container {
   position: fixed;
   z-index: 100;
@@ -1151,6 +1197,173 @@ p {
     transform: rotate(360deg);
   }
 }
+
+/* =====================================================
+   16. CHÁ DE CASA NOVA
+===================================================== */
+.cha-page {
+  min-height: 100vh;
+  padding: 132px 20px 88px;
+  background:
+    radial-gradient(
+      circle at 85% 12%,
+      rgba(155, 106, 72, 0.16),
+      transparent 28%
+    ),
+    linear-gradient(145deg, #f7f7f5 0%, #f1e9e2 100%);
+}
+.cha-page > .back-btn {
+  margin-top: -96px;
+  margin-bottom: 48px;
+}
+.cha-container {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+}
+.cha-hero-card {
+  padding: clamp(28px, 5vw, 58px);
+  margin-bottom: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.94),
+    rgba(241, 231, 223, 0.84)
+  );
+  box-shadow: var(--shadow-sm);
+}
+.cha-kicker {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--color-accent);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.cha-hero-card h1 {
+  max-width: 650px;
+  margin-bottom: 16px;
+}
+.cha-hero-card p {
+  max-width: 590px;
+  color: var(--color-text-secondary);
+  font-size: 17px;
+}
+.cha-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  gap: 18px;
+  align-items: start;
+}
+.cha-card {
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(14px);
+}
+.cha-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+.cha-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--color-accent);
+  font-size: 22px;
+}
+.cha-card h2 {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+}
+.cha-event-details {
+  display: grid;
+  gap: 0;
+  margin-bottom: 24px;
+}
+.cha-event-details > div {
+  padding: 16px 0;
+  border-top: 1px solid var(--color-border);
+}
+.cha-event-details > div:last-child {
+  border-bottom: 1px solid var(--color-border);
+}
+.cha-event-details span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--color-text-tertiary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.cha-event-details strong {
+  display: block;
+  font-size: 16px;
+}
+.cha-event-details p {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+.cha-map-wrap {
+  height: 230px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: #e8e0d9;
+}
+.cha-map-wrap iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  filter: saturate(0.75);
+}
+.cha-map-link {
+  display: inline-flex;
+  gap: 6px;
+  margin-top: 13px;
+  color: var(--color-accent-dark);
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.cha-map-link:hover {
+  text-decoration: underline;
+}
+.cha-form-card h2 {
+  margin-bottom: 12px;
+}
+.cha-form-intro {
+  margin-bottom: 26px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+.cha-form {
+  gap: 18px;
+}
+.cha-form .admin-button {
+  width: 100%;
+  margin-top: 4px;
+}
+.cha-success {
+  margin-top: 20px;
+  padding: 13px 14px;
+  border-radius: var(--radius-sm);
+  color: var(--color-success);
+  background: #edf8f1;
+  font-size: 13px;
+}
+
+/* =====================================================
+   17. RESPONSIVIDADE
+===================================================== */
 @media (max-width: 700px) {
   .navbar {
     top: 8px;
@@ -1252,6 +1465,43 @@ p {
     height: 180px;
   }
 }
+
+/* -----------------------------------------------------
+   Responsividade do Chá de Casa Nova
+----------------------------------------------------- */
+@media (max-width: 800px) {
+  .cha-layout {
+    grid-template-columns: 1fr;
+  }
+  .cha-event-card {
+    order: 2;
+  }
+  .cha-form-card {
+    order: 1;
+  }
+}
+@media (max-width: 500px) {
+  .cha-page {
+    padding-inline: 12px;
+  }
+  .cha-page > .back-btn {
+    margin-bottom: 32px;
+  }
+  .cha-hero-card,
+  .cha-card {
+    border-radius: var(--radius-md);
+  }
+  .cha-hero-card p {
+    font-size: 15px;
+  }
+  .cha-map-wrap {
+    height: 210px;
+  }
+}
+
+/* =====================================================
+   18. REDUÇÃO DE MOVIMENTO
+===================================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *:before,
