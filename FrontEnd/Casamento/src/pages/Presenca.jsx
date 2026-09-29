@@ -4,12 +4,6 @@ import { useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-function aguardarCincoSegundos() {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 5000);
-  });
-}
-
 function mascararTelefone(valor) {
   const numeros = valor.replace(/\D/g, "").slice(0, 11);
   if (numeros.length <= 2) {
@@ -88,9 +82,7 @@ export default function Presenca() {
         return response.json();
       });
 
-      // Promise.allSettled não lança erro quando o fetch falha. Isso fazia
-      // o formulário mostrar sucesso mesmo com erro no backend/Supabase.
-      await Promise.all([requisicao, aguardarCincoSegundos()]);
+      await requisicao;
 
       setEnviando(false);
       setEnviado(true);
@@ -173,12 +165,16 @@ export default function Presenca() {
               padding: "12px",
               fontSize: "16px",
               cursor: enviando ? "wait" : "pointer",
-              opacity: enviando ? 0.7 : 1,
+              opacity: enviando ? 0.5 : 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "4px",
             }}
           >
             {enviando ? (
               <>
-                <span className="loading-spinner" />
+                <span className="loading-spinner"></span>
                 Enviando confirmação...
               </>
             ) : (

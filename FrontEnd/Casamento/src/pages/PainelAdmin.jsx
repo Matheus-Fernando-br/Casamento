@@ -36,7 +36,10 @@ export default function PainelAdmin() {
   const [telefone, setTelefone] = useState("");
   const [editandoId, setEditandoId] = useState(null);
   const [erro, setErro] = useState("");
+
   const [carregando, setCarregando] = useState(true);
+  const [salvando, setSalvando] = useState(false);
+  const [excluindoId, setExcluindoId] = useState(null);
 
   const requisicaoAdmin = useCallback(
     async (url, options = {}) => {
@@ -102,9 +105,14 @@ export default function PainelAdmin() {
   const salvarPessoa = async (event) => {
     event.preventDefault();
 
+    if (salvando) return;
+
     try {
       setErro("");
+      setSalvando(true);
+
       const metodo = editandoId ? "PUT" : "POST";
+
       const caminhoBase = editandoId
         ? `/admin/confirmacoes/${editandoId}`
         : "/admin/confirmacoes";
@@ -115,9 +123,12 @@ export default function PainelAdmin() {
       });
 
       limparFormulario();
+
       await carregarConfirmacoes(tipo);
     } catch (error) {
       setErro(error.message);
+    } finally {
+      setSalvando(false);
     }
   };
 
@@ -129,17 +140,25 @@ export default function PainelAdmin() {
   };
 
   const excluirPessoa = async (id) => {
-    if (!window.confirm("Tem certeza que deseja excluir esta confirmação?"))
+    if (excluindoId) return;
+
+    if (!window.confirm("Tem certeza que deseja excluir esta confirmação?")) {
       return;
+    }
 
     try {
       setErro("");
+      setExcluindoId(id);
+
       await requisicaoAdmin(`/admin/confirmacoes/${id}?tipo=${tipo}`, {
         method: "DELETE",
       });
+
       await carregarConfirmacoes(tipo);
     } catch (error) {
       setErro(error.message);
+    } finally {
+      setExcluindoId(null);
     }
   };
 
@@ -235,8 +254,17 @@ export default function PainelAdmin() {
                 required
               />
             </label>
-            <button className="admin-button" type="submit">
-              {editandoId ? "Salvar alterações" : "Adicionar convidado"}
+            <button className="admin-button" type="submit" disabled={salvando}>
+              {salvando ? (
+                <>
+                  <span className="loading-spinner"></span>
+                  <span>{editandoId ? "Salvando..." : "Adicionando..."}</span>
+                </>
+              ) : editandoId ? (
+                "Salvar alterações"
+              ) : (
+                "Adicionar convidado"
+              )}
             </button>
           </form>
         </section>
@@ -251,13 +279,24 @@ export default function PainelAdmin() {
               className="admin-button secondary admin-refresh"
               onClick={() => carregarConfirmacoes(tipo)}
               type="button"
+              disabled={carregando}
             >
-              Atualizar lista
+              {carregando ? (
+                <>
+                  <span className="loading-spinner loading-spinner-dark"></span>
+                  <span>Atualizando...</span>
+                </>
+              ) : (
+                "Atualizar lista"
+              )}
             </button>
           </div>
 
           {carregando ? (
-            <div className="admin-loading">Carregando confirmações...</div>
+            <div className="admin-loading">
+              <span className="loading-spinner loading-spinner-dark"></span>
+              <span>Carregando confirmações...</span>
+            </div>
           ) : confirmacoes.length === 0 ? (
             <div className="admin-empty">
               <strong>A lista ainda está vazia</strong>
@@ -287,8 +326,16 @@ export default function PainelAdmin() {
                       className="admin-button danger"
                       onClick={() => excluirPessoa(pessoa.id)}
                       type="button"
+                      disabled={excluindoId === pessoa.id}
                     >
-                      Excluir
+                      {excluindoId === pessoa.id ? (
+                        <>
+                          <span className="loading-spinner"></span>
+                          <span>Excluindo...</span>
+                        </>
+                      ) : (
+                        "Excluir"
+                      )}
                     </button>
                   </div>
                 </li>

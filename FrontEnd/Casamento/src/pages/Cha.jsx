@@ -178,11 +178,18 @@ export default function Cha() {
                   />
                 </label>
                 <button
-                  className="admin-button"
+                  className="admin-button cha-submit-button"
                   type="submit"
                   disabled={enviando}
                 >
-                  {enviando ? "Confirmando..." : "Confirmar presença"}
+                  {enviando ? (
+                    <>
+                      <span className="loading-spinner"></span>
+                      <span>Confirmando...</span>
+                    </>
+                  ) : (
+                    "Confirmar presença"
+                  )}
                 </button>
               </form>
               {enviado && (

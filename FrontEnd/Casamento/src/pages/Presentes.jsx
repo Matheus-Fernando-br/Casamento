@@ -6,7 +6,6 @@ import Container from "../components/Container";
 import { categorias } from "../data/presentes";
 import { useCart } from "../context/CartContext";
 import FrasePix from "../components/FrasePix";
-import CardPresente from "../components/CardPresente";
 
 export default function Presentes() {
   const navigate = useNavigate();

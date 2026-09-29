@@ -88,6 +88,47 @@ img {
     padding: 0 10px;
   }
 }
+
+.loading-spinner {
+  width: 18px;
+  height: 18px;
+
+  display: inline-block;
+  flex-shrink: 0;
+
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+
+  border-radius: 50%;
+
+  animation: loading-spin 0.7s linear infinite;
+}
+
+@keyframes loading-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cha-submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.cha-submit-button:disabled {
+  cursor: wait;
+  opacity: 0.75;
+}
 /* =====================================================
    3. TIPOGRAFIA
 ===================================================== */
@@ -1387,6 +1428,20 @@ p {
   color: var(--color-text-secondary);
   text-align: center;
 }
+
+.admin-loading {
+  min-height: 180px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  color: #666;
+
+  font-size: 14px;
+}
 .admin-empty {
   display: grid;
   gap: 5px;
@@ -1486,20 +1541,6 @@ p {
   inset: 0;
   background: var(--color-background);
   pointer-events: none;
-}
-.loading-spinner {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  border: 2px solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-}
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 /* =====================================================
