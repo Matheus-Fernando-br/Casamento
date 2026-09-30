@@ -168,9 +168,25 @@ p {
   outline: 3px solid rgba(155, 106, 72, 0.45);
   outline-offset: 3px;
 }
-/* =====================================================
-   5. NAVBAR E NAVEGAÇÃO
-===================================================== */
+/* ===================================================== OVERLAY DO MENU ===================================================== */
+.navbar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+  backdrop-filter: blur(1.5px);
+}
+.navbar-overlay.visivel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+} /* ===================================================== NAVBAR ===================================================== */
 .navbar {
   position: fixed;
   z-index: 50;
@@ -185,11 +201,11 @@ p {
   gap: 16px;
   transform: translateX(-50%);
   border: 1px solid rgba(255, 255, 255, 0.72);
-  border-radius: 999px;
+  border-radius: 20px;
   background: rgba(255, 255, 255, 0.78);
   box-shadow: 0 12px 40px rgba(29, 29, 31, 0.09);
   backdrop-filter: blur(22px) saturate(150%);
-}
+} /* ===================================================== LOGO ===================================================== */
 .logo {
   position: absolute;
   left: 50%;
@@ -205,7 +221,7 @@ p {
 }
 .logo:first-letter {
   color: var(--color-accent);
-}
+} /* ===================================================== MENU HAMBÚRGUER ===================================================== */
 .menu-toggle {
   order: -1;
   width: 40px;
@@ -240,7 +256,7 @@ p {
 }
 .menu-toggle.aberto span:nth-child(3) {
   transform: translateY(-5.5px) rotate(-45deg);
-}
+} /* ===================================================== MENU ===================================================== */
 .navbar-menu {
   position: absolute;
   top: calc(100% + 12px);
@@ -269,7 +285,7 @@ p {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) scale(1);
-}
+} /* ===================================================== LINKS ===================================================== */
 .navbar-menu a,
 .cart-link {
   min-height: 42px;
@@ -294,7 +310,7 @@ p {
 }
 .navbar-menu a.active {
   font-weight: 650;
-}
+} /* ===================================================== CARRINHO ===================================================== */
 .cart-link {
   position: relative;
   color: var(--color-text);
@@ -314,6 +330,31 @@ p {
   border-radius: 99px;
   font-size: 10px;
   line-height: 1;
+} /* ===================================================== BLOQUEAR SCROLL COM MENU ABERTO ===================================================== */
+body.menu-aberto {
+  overflow: hidden;
+} /* ===================================================== RESPONSIVO ===================================================== */
+@media (max-width: 600px) {
+  .navbar-overlay {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  .navbar {
+    width: calc(100% - 24px);
+    top: 8px;
+    padding-left: 12px;
+    padding-right: 8px;
+    border-radius: 18px;
+  }
+  .logo {
+    font-size: 32px;
+  }
+  .navbar-menu {
+    width: min(236px, calc(100vw - 40px));
+    top: calc(100% + 10px);
+  }
+  .cart-link span {
+    display: none;
+  }
 }
 /* =====================================================
    6. LAYOUT, CONTAINERS E BOTÕES GERAIS
@@ -397,9 +438,16 @@ p {
 .pix-btn {
   margin-top: 22px;
 }
+
 .back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+
   margin: calc(var(--nav-height) + 30px) auto 0;
-  margin-left: 15px;
+
   color: var(--color-text-secondary);
   background: var(--color-surface-strong);
   border-color: var(--color-border);
@@ -1050,22 +1098,101 @@ p {
   width: 100%;
   margin-top: auto;
 }
-.scroll-top {
+/* ========================================= BOTÕES FLUTUANTES ========================================= */
+.floating-actions {
   position: fixed;
-  z-index: 20;
   right: 24px;
   bottom: 24px;
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1000;
+} /* BOTÃO DO CARRINHO */
+.floating-cart {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-accent);
   border-radius: 50%;
-  color: var(--color-text);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: var(--shadow-md);
+  background: #ffffff;
+  color: #333;
+  text-decoration: none;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.692);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.floating-cart i {
+  font-size: 21px;
+}
+.floating-cart:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+} /* CONTADOR DO CARRINHO */
+.floating-cart-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #c94f6d;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+} /* BOTÃO VOLTAR AO TOPO */
+.scroll-top {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-accent);
+  border-radius: 50%;
+  background: #ffffff;
+  color: #333;
+  font-size: 23px;
+  line-height: 1;
   cursor: pointer;
-  font-size: 18px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.692);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.scroll-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+} /* ========================================= RESPONSIVO ========================================= */
+@media (max-width: 600px) {
+  .floating-actions {
+    right: 16px;
+    bottom: 16px;
+    gap: 8px;
+  }
+  .floating-cart,
+  .scroll-top {
+    width: 46px;
+    height: 46px;
+  }
+  .floating-cart i {
+    font-size: 19px;
+  }
+  .scroll-top {
+    font-size: 20px;
+  }
+  .floating-cart-count {
+    min-width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
 }
 .cart-alert,
 .pix-alert {
