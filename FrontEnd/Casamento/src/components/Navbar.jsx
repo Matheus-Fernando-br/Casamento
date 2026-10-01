@@ -72,7 +72,7 @@ export default function Navbar() {
           onClick={fecharMenu}
         >
           {" "}
-          <i className="bi bi-cart3"></i> <span>Carrinho</span>{" "}
+          <i className="bi bi-cart3"></i>
           <strong className="cart-count"> {cart.length} </strong>{" "}
         </NavLink>{" "}
         {/* MENU */}{" "}

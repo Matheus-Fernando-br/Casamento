@@ -1495,6 +1495,20 @@ body.menu-aberto {
 .admin-list-card {
   margin-bottom: 18px;
 }
+.admin-list-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.admin-refresh-icon {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 1;
+}
+.admin-refresh-icon.is-spinning {
+  animation: loading-spin 0.7s linear infinite;
+}
 .admin-form {
   display: grid;
   gap: 16px;
@@ -1902,6 +1916,13 @@ body.menu-aberto {
   .admin-overview-card,
   .admin-section-heading {
     flex-direction: column;
+  }
+  .admin-list-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+  .admin-list-actions .admin-button {
+    flex: 1;
   }
   .admin-stat {
     width: 100%;

@@ -76,6 +76,10 @@ function prepararPessoa(nome, telefone) {
   };
 }
 
+app.get("/health", (req, res) => {
+  return res.status(200).json({ status: "ok" });
+});
+
 async function buscarConfirmacoes(tabela) {
   const { data, error } = await supabase
     .from(tabela)

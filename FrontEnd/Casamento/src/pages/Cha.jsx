@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BotaoVoltar from "../components/BotaoVoltar";
 import Navbar from "../components/Navbar";
 
@@ -27,6 +27,13 @@ export default function Cha() {
   const [telefone, setTelefone] = useState("");
   const [enviado, setEnviado] = useState(false);
   const [enviando, setEnviando] = useState(false);
+
+  useEffect(() => {
+    // A chamada é silenciosa e aquece o backend enquanto a pessoa preenche o formulário.
+    fetch(`${API_URL}/health`, { cache: "no-store" }).catch(() => {
+      // O envio continuará exibindo o erro real se o backend estiver indisponível.
+    });
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

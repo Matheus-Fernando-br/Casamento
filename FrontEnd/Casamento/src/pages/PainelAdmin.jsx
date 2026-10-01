@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { jsPDF } from "jspdf";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -24,6 +25,15 @@ function formatarTelefone(valor) {
     return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 6)}-${numeros.slice(6)}`;
   }
   return valor;
+}
+
+function sanitizarNomeArquivo(valor) {
+  return valor
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 export default function PainelAdmin() {
@@ -173,6 +183,104 @@ export default function PainelAdmin() {
     }
   };
 
+  const gerarListaPdf = () => {
+    const documento = new jsPDF({ unit: "mm", format: "a4" });
+    const margem = 18;
+    const larguraUtil = 210 - margem * 2;
+    const tituloEvento = TIPOS[tipo];
+    const descricao = `Lista completa de convidados confirmados para o ${tituloEvento.toLowerCase()}.`;
+    let pagina = 1;
+    let y = 24;
+
+    documento.setProperties({
+      title: `Lista de Convidados do ${tituloEvento}`,
+      subject: `Convidados do ${tituloEvento}`,
+    });
+
+    const desenharCabecalhoTabela = () => {
+      documento.setFillColor(155, 106, 72);
+      documento.roundedRect(margem, y, larguraUtil, 10, 2, 2, "F");
+      documento.setFont("helvetica", "bold");
+      documento.setFontSize(10);
+      documento.setTextColor(255, 255, 255);
+      documento.text("Nº", margem + 5, y + 6.5);
+      documento.text("Nome", margem + 20, y + 6.5);
+      documento.text("Telefone", margem + 135, y + 6.5);
+      y += 10;
+    };
+
+    documento.setTextColor(63, 48, 39);
+    documento.setFont("helvetica", "bold");
+    documento.setFontSize(20);
+    documento.text(`Lista de Convidados do ${tituloEvento}`, margem, y);
+    y += 10;
+
+    documento.setFont("helvetica", "normal");
+    documento.setFontSize(10);
+    documento.setTextColor(107, 93, 83);
+    documento.text(descricao, margem, y);
+    y += 7;
+    documento.text(
+      `${confirmacoes.length} convidado${confirmacoes.length === 1 ? "" : "s"} • Gerado em ${new Date().toLocaleDateString("pt-BR")}`,
+      margem,
+      y,
+    );
+    y += 10;
+    desenharCabecalhoTabela();
+
+    confirmacoes.forEach((pessoa, index) => {
+      const nomeLinhas = documento
+        .splitTextToSize(String(pessoa.nome || ""), 100)
+        .slice(0, 2);
+      const alturaLinha = Math.max(10, nomeLinhas.length * 5 + 5);
+
+      if (y + alturaLinha > 277) {
+        documento.addPage();
+        pagina += 1;
+        y = 20;
+        desenharCabecalhoTabela();
+      }
+
+      if (index % 2 === 0) {
+        documento.setFillColor(250, 246, 242);
+        documento.rect(margem, y, larguraUtil, alturaLinha, "F");
+      }
+
+      documento.setFont("helvetica", "normal");
+      documento.setFontSize(10);
+      documento.setTextColor(63, 48, 39);
+      documento.text(String(index + 1), margem + 5, y + 6.5);
+      documento.text(nomeLinhas, margem + 20, y + 5.5);
+      documento.text(
+        formatarTelefone(pessoa.telefone) || "Não informado",
+        margem + 135,
+        y + 6.5,
+      );
+      documento.setDrawColor(224, 214, 205);
+      documento.line(
+        margem,
+        y + alturaLinha,
+        margem + larguraUtil,
+        y + alturaLinha,
+      );
+      y += alturaLinha;
+    });
+
+    for (let numeroPagina = 1; numeroPagina <= pagina; numeroPagina += 1) {
+      documento.setPage(numeroPagina);
+      documento.setFont("helvetica", "normal");
+      documento.setFontSize(8);
+      documento.setTextColor(150, 135, 124);
+      documento.text(`Página ${numeroPagina} de ${pagina}`, 210 - margem, 287, {
+        align: "right",
+      });
+    }
+
+    documento.save(
+      `lista-de-convidados-${sanitizarNomeArquivo(tituloEvento)}.pdf`,
+    );
+  };
+
   return (
     <main className="admin-page">
       <div className="admin-container">
@@ -275,21 +383,36 @@ export default function PainelAdmin() {
               <span className="admin-eyebrow">Lista atualizada</span>
               <h2>Convidados de {TIPOS[tipo]}</h2>
             </div>
-            <button
-              className="admin-button secondary admin-refresh"
-              onClick={() => carregarConfirmacoes(tipo)}
-              type="button"
-              disabled={carregando}
-            >
-              {carregando ? (
-                <>
-                  <span className="loading-spinner loading-spinner-dark"></span>
-                  <span>Atualizando...</span>
-                </>
-              ) : (
-                "Atualizar lista"
-              )}
-            </button>
+            <div className="admin-list-actions">
+              <button
+                className="admin-button secondary admin-refresh"
+                onClick={() => carregarConfirmacoes(tipo)}
+                type="button"
+                disabled={carregando}
+                aria-label={
+                  carregando ? "Atualizando lista" : "Atualizar lista"
+                }
+                title={carregando ? "Atualizando lista" : "Atualizar lista"}
+              >
+                <span
+                  className={`bi bi-arrow-repeat admin-refresh-icon ${carregando ? "is-spinning" : ""}`}
+                  aria-hidden="true"
+                ></span>
+              </button>
+              <button
+                className="admin-button secondary admin-pdf"
+                onClick={gerarListaPdf}
+                type="button"
+                disabled={carregando || confirmacoes.length === 0}
+                title={
+                  confirmacoes.length === 0
+                    ? "Adicione convidados para gerar a lista"
+                    : undefined
+                }
+              >
+                Gerar Lista
+              </button>
+            </div>
           </div>
 
           {carregando ? (
