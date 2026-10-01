@@ -20,13 +20,13 @@ export default function SecaoCha() {
 
           <div className="cha-invite-detail">
             <span>Horário</span>
-            <strong>16:00</strong>
+            <strong>19:00</strong>
           </div>
 
           <div className="cha-invite-detail">
             <span>Local</span>
-            <strong>Em cima do Teixerão</strong>
-            <small>R. Rosa, 341 — Primavera, Timóteo - MG</small>
+            <strong>Centro Internacional de Avivamento Primavera</strong>
+            <small>Rua Dezesseis, 21-A, Bairro Primavera, Timóteo - MG</small>
           </div>
         </div>
 
