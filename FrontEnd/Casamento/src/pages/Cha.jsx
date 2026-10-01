@@ -105,8 +105,8 @@ export default function Cha() {
               <div className="cha-event-details">
                 <div>
                   <span>Local</span>
-                  <strong>Em cima do Teixerão</strong>
-                  <p>R. Rosa, 341 — Primavera, Timóteo - MG</p>
+                  <strong>Centro Internacional de Avivamento Primavera</strong>
+                  <p>Rua Dezesseis, 21-A, Bairro Primavera, Timóteo - MG</p>
                 </div>
                 <div>
                   <span>Data</span>
@@ -115,22 +115,23 @@ export default function Cha() {
                 </div>
                 <div>
                   <span>Horário</span>
-                  <strong>16:00</strong>
+                  <strong>19:00</strong>
                   <p>Esperamos você com carinho</p>
                 </div>
               </div>
               <div className="cha-map-wrap">
                 <iframe
                   title="Mapa do local do Chá de Casa Nova"
-                  src="https://www.google.com/maps?q=R.%20Rosa,%20341,%20Primavera,%20Tim%C3%B3teo%20-%20MG&output=embed"
+                  src="https://www.google.com/maps?q=Igreja%20Centro%20Internacional%20De%20Avivamento%20Primavera&output=embed"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   allowFullScreen
                 />
               </div>
+
               <a
                 className="cha-map-link"
-                href="https://www.google.com/maps/search/?api=1&query=R.%20Rosa,%20341,%20Primavera,%20Tim%C3%B3teo%20-%20MG"
+                href="https://www.google.com/maps/place/Igreja+Centro+Internacional+De+Avivamento+Primavera/@-19.5562952,-42.6400805,20.58z/data=!4m6!3m5!1s0xa55144a74795e1:0x6475bef37c560e0e!8m2!3d-19.556324!4d-42.6400854!16s%2Fg%2F11hbg8dd37"
                 target="_blank"
                 rel="noreferrer"
               >
