@@ -1699,7 +1699,7 @@ body.menu-aberto {
     linear-gradient(145deg, #f7f7f5 0%, #f1e9e2 100%);
 }
 .cha-page > .back-btn {
-  margin-top: -96px;
+  margin-top: -42px;
   margin-bottom: 48px;
 }
 .cha-container {
@@ -1978,6 +1978,7 @@ body.menu-aberto {
     padding-inline: 12px;
   }
   .cha-page > .back-btn {
+    margin-top: -50px;
     margin-bottom: 32px;
   }
   .cha-hero-card,
